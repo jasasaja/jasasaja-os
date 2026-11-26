@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { AlertCircle, RotateCcw, Save } from 'lucide-react';
 import {
   DEFAULT_WORKSPACE_SETTINGS,
@@ -47,18 +47,18 @@ export function SettingsView({
   const [resetOpen, setResetOpen] = useState(false);
   const feedbackTimerRef = useRef<number | null>(null);
 
-  const clearFeedbackTimer = () => {
+  const clearFeedbackTimer = useCallback(() => {
     if (feedbackTimerRef.current !== null) {
       window.clearTimeout(feedbackTimerRef.current);
       feedbackTimerRef.current = null;
     }
-  };
+  }, []);
 
   useEffect(() => {
     setDraft(settings);
   }, [settings]);
 
-  useEffect(() => clearFeedbackTimer, []);
+  useEffect(() => clearFeedbackTimer, [clearFeedbackTimer]);
 
   const applyStorageFeedback = (result: StorageWriteResult, successMessage: string) => {
     clearFeedbackTimer();
@@ -73,7 +73,7 @@ export function SettingsView({
         kind: 'error',
         message:
           result.error ??
-          'Failed to save temporary preferences to browser storage.',
+          'Gagal menyimpan preferensi sementara ke penyimpanan browser.',
       });
     }
   };
@@ -88,7 +88,7 @@ export function SettingsView({
       return;
     }
     const result = onSaveSettings(draft);
-    applyStorageFeedback(result, 'Temporary preferences saved');
+    applyStorageFeedback(result, 'Preferensi sementara tersimpan');
   };
 
   const handleConfirmReset = () => {
@@ -96,14 +96,14 @@ export function SettingsView({
     setDraft(DEFAULT_WORKSPACE_SETTINGS);
     setErrors({});
     setResetOpen(false);
-    applyStorageFeedback(result, 'Default preferences restored');
+    applyStorageFeedback(result, 'Preferensi default dipulihkan');
   };
 
   return (
     <div className="space-y-6">
       <PageHeader
         title="Settings"
-        description="Configure temporary browser UI preferences such as workspace name, theme mode, landing route, and layout density."
+        description="Konfigurasi preferensi UI sementara di browser seperti nama ruang kerja, tema, halaman awal, dan kerapatan tata letak."
         breadcrumbs={breadcrumbs}
         onNavigate={onNavigate}
         actions={
@@ -112,7 +112,7 @@ export function SettingsView({
             leftIcon={<RotateCcw className="h-4 w-4" />}
             onClick={() => setResetOpen(true)}
           >
-            Reset Defaults
+            Atur Ulang ke Default
           </Button>
         }
       />
@@ -129,22 +129,22 @@ export function SettingsView({
 
       <section aria-labelledby="settings-preferences-heading">
         <h2 id="settings-preferences-heading" className="sr-only">
-          Workspace Preferences Form
+          Formulir Preferensi Ruang Kerja
         </h2>
         <form onSubmit={handleSubmit} noValidate className="space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card>
             <CardHeader>
               <div>
-                <CardTitle>Workspace Identity</CardTitle>
+                <CardTitle>Identitas Ruang Kerja</CardTitle>
                 <CardDescription>
-                  Displayed across the sidebar header, breadcrumbs, and local profile menu.
+                  Ditampilkan di header sidebar, breadcrumb, dan menu profil lokal.
                 </CardDescription>
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
               <Input
-                label="Workspace Name"
+                label="Nama Ruang Kerja"
                 required
                 value={draft.workspaceName}
                 onChange={(e) => {
@@ -158,7 +158,7 @@ export function SettingsView({
               />
 
               <Input
-                label="Operator Display Name"
+                label="Nama Tampilan Operator"
                 required
                 value={draft.displayName}
                 onChange={(e) => {
@@ -171,7 +171,7 @@ export function SettingsView({
               />
 
               <Textarea
-                label="Workspace Summary"
+                label="Ringkasan Ruang Kerja"
                 value={draft.bio}
                 onChange={(e) => setDraft((prev) => ({ ...prev, bio: e.target.value }))}
                 maxLength={240}
@@ -185,39 +185,39 @@ export function SettingsView({
           <Card className="flex flex-col">
             <CardHeader>
               <div>
-                <CardTitle>Interface &amp; Layout</CardTitle>
+                <CardTitle>Tampilan &amp; Tata Letak</CardTitle>
                 <CardDescription>
-                  Stored temporarily in browser localStorage (not an application database).
+                  Disimpan sementara di localStorage browser (bukan database aplikasi).
                 </CardDescription>
               </div>
             </CardHeader>
             <CardContent className="space-y-4 flex-1">
               <Select
-                label="Theme Appearance"
+                label="Tampilan Tema"
                 value={draft.theme}
                 onChange={(e) =>
                   setDraft((prev) => ({ ...prev, theme: e.target.value as ThemeMode }))
                 }
                 options={[
-                  { value: 'light', label: 'Light (Engineering Slate)' },
-                  { value: 'dark', label: 'Dark (Deep Slate)' },
+                  { value: 'light', label: 'Terang (Engineering Slate)' },
+                  { value: 'dark', label: 'Gelap (Deep Slate)' },
                 ]}
               />
 
               <Select
-                label="Layout Density"
+                label="Kerapatan Tata Letak"
                 value={draft.density}
                 onChange={(e) =>
                   setDraft((prev) => ({ ...prev, density: e.target.value as DensityMode }))
                 }
                 options={[
-                  { value: 'comfortable', label: 'Comfortable (Standard spacing)' },
-                  { value: 'compact', label: 'Compact (Tighter vertical padding)' },
+                  { value: 'comfortable', label: 'Nyaman (Spasi standar)' },
+                  { value: 'compact', label: 'Kompak (Spasi vertikal lebih rapat)' },
                 ]}
               />
 
               <Select
-                label="Default Landing Module"
+                label="Modul Awal Default"
                 value={draft.defaultRoute}
                 onChange={(e) =>
                   setDraft((prev) => ({ ...prev, defaultRoute: e.target.value as RouteId }))
@@ -229,21 +229,21 @@ export function SettingsView({
                   { value: 'projects', label: 'Projects' },
                   { value: 'settings', label: 'Settings' },
                 ]}
-                hint="Initial module opened when visiting the workspace root (/)."
+                hint="Modul pertama yang dibuka saat mengunjungi root ruang kerja (/)."
               />
             </CardContent>
             <CardFooter className="bg-surface-subtle/30">
               {saveFeedback?.kind === 'saved' ? (
                 <StatusIndicator status="active" label={saveFeedback.message} size="sm" />
               ) : saveFeedback?.kind === 'error' ? (
-                <StatusIndicator status="error" label="Storage write failed" size="sm" />
+                <StatusIndicator status="error" label="Gagal menulis penyimpanan" size="sm" />
               ) : (
                 <span className="text-[13px] leading-normal text-ink-muted">
-                  Temporary browser preferences (not a database)
+                  Preferensi browser sementara (bukan database)
                 </span>
               )}
               <Button type="submit" variant="primary" leftIcon={<Save className="h-4 w-4" />}>
-                Save Changes
+                Simpan Perubahan
               </Button>
             </CardFooter>
           </Card>
@@ -255,9 +255,9 @@ export function SettingsView({
         open={resetOpen}
         onClose={() => setResetOpen(false)}
         onConfirm={handleConfirmReset}
-        title="Reset workspace preferences?"
-        description="This restores the default JASASAJA workspace name, light theme, comfortable density, and Dashboard landing route."
-        confirmLabel="Confirm Reset"
+        title="Atur ulang preferensi ruang kerja?"
+        description="Ini mengembalikan nama ruang kerja JASASAJA default, tema terang, kerapatan nyaman, dan halaman awal Dashboard."
+        confirmLabel="Konfirmasi Atur Ulang"
         variant="danger"
       />
     </div>

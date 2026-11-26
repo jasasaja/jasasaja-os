@@ -21,23 +21,23 @@ export function NotFoundView({
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Page Not Found"
-        description="The requested path does not match a workspace route."
+        title="Halaman Tidak Ditemukan"
+        description="Jalur yang diminta tidak cocok dengan rute ruang kerja."
         breadcrumbs={breadcrumbs}
         onNavigate={onNavigate}
       />
 
       <section aria-labelledby="not-found-heading">
         <h2 id="not-found-heading" className="sr-only">
-          Route Fallback Details
+          Detail Rute Fallback
         </h2>
         <EmptyState
           icon={<Compass className="h-5 w-5" />}
-          title="Unknown route"
-          description={`No module is registered at "${pathname}". Return to the Dashboard or open your configured default route (${defaultRoute}).`}
-          actionLabel="Go to Dashboard"
+          title="Rute tidak dikenal"
+          description={`Tidak ada modul yang terdaftar di "${pathname}". Kembali ke Dashboard atau buka rute default yang dikonfigurasi (${defaultRoute}).`}
+          actionLabel="Ke Dashboard"
           onAction={() => onNavigate('dashboard')}
-          secondaryActionLabel="Open Default Route"
+          secondaryActionLabel="Buka Rute Default"
           onSecondaryAction={onNavigateRoot}
         />
       </section>

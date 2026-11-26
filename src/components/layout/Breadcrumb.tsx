@@ -14,7 +14,7 @@ export function Breadcrumb({ items, onNavigate, className }: BreadcrumbProps) {
   }
 
   return (
-    <nav aria-label="Breadcrumb" className={cn('min-w-0', className)}>
+    <nav aria-label="Navigasi breadcrumb" className={cn('min-w-0', className)}>
       <ol className="flex items-center gap-1.5 text-sm min-w-0">
         {items.map((item, index) => {
           const isLast = index === items.length - 1 || item.current;

@@ -145,7 +145,7 @@ export function Dialog({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close dialog"
+            aria-label="Tutup dialog"
             className="min-h-9 min-w-9 inline-flex items-center justify-center rounded-lg text-ink-muted hover:text-ink hover:bg-surface-subtle transition-colors cursor-pointer shrink-0"
           >
             <X className="h-4 w-4" aria-hidden="true" />

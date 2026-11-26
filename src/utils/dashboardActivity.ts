@@ -49,7 +49,7 @@ export const DEMO_ACTIVITY_ITEMS: readonly ActivityItem[] = [
     title: 'Distributed Consensus & Raft Log Replication',
     meta: 'Systems Track · 25 min review',
     status: 'active',
-    statusLabel: 'In Progress',
+    statusLabel: 'Sedang Dipelajari',
     isSample: true,
   },
   {
@@ -59,7 +59,7 @@ export const DEMO_ACTIVITY_ITEMS: readonly ActivityItem[] = [
     title: 'PostgreSQL MVCC & Index Scan Internals',
     meta: 'Database Track · Due today',
     status: 'pending',
-    statusLabel: 'Queued',
+    statusLabel: 'Antrean',
     isSample: true,
   },
   {
@@ -69,7 +69,7 @@ export const DEMO_ACTIVITY_ITEMS: readonly ActivityItem[] = [
     title: 'TypeScript Variance & Conditional Inference',
     meta: 'Language Track · Completed',
     status: 'inactive',
-    statusLabel: 'Reviewed',
+    statusLabel: 'Selesai Ditinjau',
     isSample: true,
   },
 
@@ -81,7 +81,7 @@ export const DEMO_ACTIVITY_ITEMS: readonly ActivityItem[] = [
     title: 'ADR-014: Shared UI Component Boundaries',
     meta: 'Architecture · Updated today',
     status: 'active',
-    statusLabel: 'Current',
+    statusLabel: 'Terkini',
     isSample: true,
   },
   {
@@ -91,7 +91,7 @@ export const DEMO_ACTIVITY_ITEMS: readonly ActivityItem[] = [
     title: 'Frontend Accessibility & Focus Checklist',
     meta: 'Standards · Verified',
     status: 'active',
-    statusLabel: 'Current',
+    statusLabel: 'Terkini',
     isSample: true,
   },
   {
@@ -113,7 +113,7 @@ export const DEMO_ACTIVITY_ITEMS: readonly ActivityItem[] = [
     title: 'JASASAJA Personal OS — Shell & Tokens',
     meta: 'Milestone 1 · Core Foundation',
     status: 'active',
-    statusLabel: 'Active',
+    statusLabel: 'Aktif',
     isSample: true,
   },
   {
@@ -123,7 +123,7 @@ export const DEMO_ACTIVITY_ITEMS: readonly ActivityItem[] = [
     title: 'Learning Center Curriculum Schema',
     meta: 'Milestone 2 · Next sprint',
     status: 'pending',
-    statusLabel: 'Planned',
+    statusLabel: 'Direncanakan',
     isSample: true,
   },
   {
@@ -254,15 +254,15 @@ export function createSampleActivityPreview(input: {
   };
 
   const defaultMeta: Record<ActivityWidgetKind, string> = {
-    learning: 'Simulated sample · Learning track',
-    handbook: 'Simulated sample · Handbook note',
-    projects: 'Simulated sample · Project milestone',
+    learning: 'Contoh simulasi · Jalur learning',
+    handbook: 'Contoh simulasi · Catatan handbook',
+    projects: 'Contoh simulasi · Milestone proyek',
   };
 
   const statusLabels: Record<'active' | 'pending' | 'warning', string> = {
-    active: 'Active (Sample)',
-    pending: 'Queued (Sample)',
-    warning: 'Draft (Sample)',
+    active: 'Aktif (Contoh)',
+    pending: 'Antrean (Contoh)',
+    warning: 'Draft (Contoh)',
   };
 
   const resolvedStatus = input.status ?? 'active';

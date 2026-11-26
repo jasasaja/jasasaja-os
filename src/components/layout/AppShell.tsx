@@ -51,7 +51,7 @@ export function AppShell({
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:rounded-lg focus:bg-accent focus:text-white focus:text-sm focus:font-medium"
       >
-        Skip to main content
+        Lewati ke konten utama
       </a>
 
       <Sidebar
@@ -86,7 +86,7 @@ export function AppShell({
             <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}
-              aria-label="Open navigation menu"
+              aria-label="Buka menu navigasi"
               aria-expanded={mobileMenuOpen}
               className="lg:hidden min-h-11 min-w-11 -ml-2 inline-flex items-center justify-center rounded-lg text-ink-secondary hover:text-ink hover:bg-surface-subtle transition-colors cursor-pointer shrink-0"
             >
@@ -116,14 +116,14 @@ export function AppShell({
 
           <div className="flex items-center gap-2 shrink-0">
             <Tooltip
-              content={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+              content={theme === 'light' ? 'Ganti ke tema gelap' : 'Ganti ke tema terang'}
               side="bottom"
               align="end"
             >
               <button
                 type="button"
                 onClick={onToggleTheme}
-                aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+                aria-label={theme === 'light' ? 'Ganti ke tema gelap' : 'Ganti ke tema terang'}
                 className="min-h-10 min-w-10 inline-flex items-center justify-center rounded-lg border border-line bg-surface text-ink-secondary hover:text-ink hover:bg-surface-subtle transition-colors cursor-pointer"
               >
                 {theme === 'light' ? (
@@ -167,7 +167,7 @@ export function AppShell({
                 onClick={onDismissNotice}
                 className="text-[13px] leading-normal font-medium text-accent hover:underline whitespace-nowrap cursor-pointer"
               >
-                Dismiss
+                Tutup
               </button>
             </div>
           )}

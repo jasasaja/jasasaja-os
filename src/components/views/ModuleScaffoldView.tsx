@@ -37,44 +37,44 @@ const MODULE_META: Record<
   learning: {
     title: 'Learning',
     description:
-      'Foundation shell for structured study tracks, technical reading logs, and review queues.',
+      'Fondasi untuk jalur belajar terstruktur, catatan bacaan teknis, dan antrean pengulangan materi.',
     Icon: GraduationCap,
     plannedCapabilities: [
-      'Curriculum track organization with progress summaries',
-      'Markdown study notes linked to handbook references',
-      'Spaced review schedule and concept mastery tracking',
+      'Organisasi jalur kurikulum dengan ringkasan progres',
+      'Catatan belajar Markdown yang terhubung ke referensi handbook',
+      'Antrean pengulangan berjadwal dan pelacakan penguasaan konsep',
     ],
-    emptyTitle: 'Learning Center module not yet enabled',
+    emptyTitle: 'Modul Learning Center belum diaktifkan',
     emptyDescription:
-      'This route is wired into the application shell and responsive navigation. Domain features will be implemented in the next phase.',
+      'Rute ini sudah terhubung ke application shell dan navigasi responsif. Fitur domain akan diimplementasikan pada fase berikutnya.',
   },
   handbook: {
     title: 'Handbook',
     description:
-      'Foundation shell for personal engineering playbooks, architecture decisions, and standards.',
+      'Fondasi untuk panduan engineering pribadi, keputusan arsitektur, dan standar kerja.',
     Icon: BookOpen,
     plannedCapabilities: [
-      'Indexed engineering guidelines and architecture decision records',
-      'Fast client-side search across personal reference articles',
-      'Reusable checklists for system design and code reviews',
+      'Indeks panduan engineering dan architecture decision record',
+      'Pencarian sisi klien yang cepat pada artikel referensi pribadi',
+      'Checklist reusable untuk system design dan code review',
     ],
-    emptyTitle: 'Handbook module not yet enabled',
+    emptyTitle: 'Modul Handbook belum diaktifkan',
     emptyDescription:
-      'Navigation, breadcrumbs, typography, and empty/loading primitives are ready to host the Handbook experience.',
+      'Navigasi, breadcrumb, tipografi, serta primitive keadaan kosong dan memuat sudah siap menjadi fondasi Handbook.',
   },
   projects: {
     title: 'Projects',
     description:
-      'Foundation shell for active engineering builds, milestones, and technical specifications.',
+      'Fondasi untuk proyek aktif, milestone, dan spesifikasi teknis.',
     Icon: FolderKanban,
     plannedCapabilities: [
-      'Project workspace switcher with milestone and status tracking',
-      'Specification drafts linked to Handbook standards',
-      'Task filtering, search, and confirmation workflows',
+      'Pemilih workspace proyek dengan pelacakan milestone dan status',
+      'Draf spesifikasi yang terhubung ke standar Handbook',
+      'Filter task, pencarian, dan alur konfirmasi',
     ],
-    emptyTitle: 'Project Workspace module not yet enabled',
+    emptyTitle: 'Modul Project Workspace belum diaktifkan',
     emptyDescription:
-      'All layout containers, cards, dialogs, and responsive breakpoints are verified and ready for Project Workspace views.',
+      'Seluruh kontainer tata letak, kartu, dialog, dan breakpoint responsif sudah diverifikasi dan siap untuk tampilan Project Workspace.',
   },
 };
 
@@ -100,26 +100,26 @@ export function ModuleScaffoldView({
             leftIcon={<ArrowLeft className="h-4 w-4" />}
             onClick={() => onNavigate('dashboard')}
           >
-            Back to Dashboard
+            Kembali ke Dashboard
           </Button>
         }
       />
 
       <section aria-labelledby="module-scaffold-heading" className="space-y-6">
         <h2 id="module-scaffold-heading" className="sr-only">
-          {meta.title} Foundation Workspace
+          Workspace Fondasi {meta.title}
         </h2>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <StatusIndicator status="pending" label="Foundation Scaffold Ready" />
+        <StatusIndicator status="pending" label="Fondasi Siap" />
 
         <Tabs
           ariaLabel={`${meta.title} scaffold preview modes`}
           activeId={previewTab}
           onChange={(id) => setPreviewTab(id as 'overview' | 'empty' | 'loading')}
           items={[
-            { id: 'overview', label: 'Module Scope' },
-            { id: 'empty', label: 'Empty State' },
-            { id: 'loading', label: 'Loading State' },
+            { id: 'overview', label: 'Cakupan Modul' },
+            { id: 'empty', label: 'Keadaan Kosong' },
+            { id: 'loading', label: 'Keadaan Memuat' },
           ]}
         />
       </div>
@@ -134,18 +134,18 @@ export function ModuleScaffoldView({
               <div>
                 <CardTitle>{meta.title} Workspace Container</CardTitle>
                 <CardDescription>
-                  Built on shared shell, breadcrumb, and surface primitives.
+                  Dibangun di atas shell, breadcrumb, dan primitive surface bersama.
                 </CardDescription>
               </div>
             </div>
-            <Badge variant="info">Phase 2 Target</Badge>
+            <Badge variant="info">Target Fase 2</Badge>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-ink-secondary leading-relaxed">
-              This view reserves the primary route and layout geometry for the {meta.title} module while keeping business logic decoupled until the dedicated module sprint.
+              Tampilan ini menyediakan rute utama dan geometri tata letak untuk modul {meta.title} sambil menjaga logika bisnis tetap terpisah hingga sprint pengembangan modul masing-masing.
             </p>
             <div className="pt-2 border-t border-line">
-              <p className="text-[13px] leading-normal font-medium text-ink-muted mb-2.5">Planned Capabilities</p>
+              <p className="text-[13px] leading-normal font-medium text-ink-muted mb-2.5">Kapabilitas Terencana</p>
               <ul className="space-y-2 text-sm text-ink">
                 {meta.plannedCapabilities.map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
@@ -166,9 +166,9 @@ export function ModuleScaffoldView({
           icon={<Icon className="h-5 w-5" />}
           title={meta.emptyTitle}
           description={meta.emptyDescription}
-          actionLabel="Return to Foundation"
+          actionLabel="Kembali ke Fondasi"
           onAction={() => onNavigate('dashboard')}
-          secondaryActionLabel="Configure Settings"
+          secondaryActionLabel="Buka Pengaturan"
           onSecondaryAction={() => onNavigate('settings')}
         />
       </TabPanel>
@@ -176,7 +176,7 @@ export function ModuleScaffoldView({
       <TabPanel active={previewTab === 'loading'}>
         <LoadingState
           variant="skeleton-list"
-          label={`Loading ${meta.title} workspace...`}
+          label={`Memuat workspace ${meta.title}...`}
           rows={4}
         />
       </TabPanel>

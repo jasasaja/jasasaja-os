@@ -18,9 +18,9 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
       onValueChange,
       onClear,
       shortcutHint,
-      placeholder = 'Search...',
+      placeholder = 'Cari...',
       className,
-      'aria-label': ariaLabel = 'Search',
+      'aria-label': ariaLabel = 'Cari',
       ...props
     },
     ref,
@@ -50,7 +50,7 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
             <button
               type="button"
               onClick={handleClear}
-              aria-label="Clear search"
+              aria-label="Hapus pencarian"
               className="p-1 rounded-md text-ink-muted hover:text-ink hover:bg-surface-subtle transition-colors cursor-pointer"
             >
               <X className="h-3.5 w-3.5" aria-hidden="true" />

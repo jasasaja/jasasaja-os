@@ -99,7 +99,7 @@ export function Dropdown({
           ref={menuRef}
           id={menuId}
           role="menu"
-          aria-label={label ?? 'Actions menu'}
+          aria-label={label ?? 'Menu aksi'}
           onKeyDown={handleMenuKeyDown}
           className={cn(
             'absolute z-40 mt-1.5 min-w-52 rounded-xl bg-surface-elevated border border-line shadow-overlay p-1.5',

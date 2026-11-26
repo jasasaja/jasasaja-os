@@ -7,3 +7,6 @@ coverage/
 .env*
 !.env.example
 .aistudio/
+
+# Local DB backups (OD-006) - never commit dumps/checksums
+/backups/

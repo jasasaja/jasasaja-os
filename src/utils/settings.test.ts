@@ -36,9 +36,9 @@ test('validateWorkspaceSettings rejects empty names and long bios', () => {
     bio: 'x'.repeat(245),
   });
 
-  assert.equal(errors.workspaceName, 'Workspace name is required.');
-  assert.equal(errors.displayName, 'Display name must be at least 2 characters.');
-  assert.equal(errors.bio, 'Bio must be 240 characters or fewer.');
+  assert.equal(errors.workspaceName, 'Nama ruang kerja wajib diisi.');
+  assert.equal(errors.displayName, 'Nama tampilan minimal 2 karakter.');
+  assert.equal(errors.bio, 'Ringkasan maksimal 240 karakter.');
 });
 
 test('validateWorkspaceSettings passes for valid defaults', () => {
@@ -61,7 +61,7 @@ test('saveWorkspaceSettings returns ok: true when storage succeeds and descripti
 
   const unavailableResult = saveWorkspaceSettings(DEFAULT_WORKSPACE_SETTINGS, null);
   assert.equal(unavailableResult.ok, false);
-  assert.match(unavailableResult.error ?? '', /localStorage is unavailable/i);
+  assert.match(unavailableResult.error ?? '', /localStorage browser tidak tersedia/i);
 
   const quotaErrorResult = saveWorkspaceSettings(DEFAULT_WORKSPACE_SETTINGS, {
     setItem() {

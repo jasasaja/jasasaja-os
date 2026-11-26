@@ -20,7 +20,7 @@ export function Tabs({
   items,
   activeId,
   onChange,
-  ariaLabel = 'Section tabs',
+  ariaLabel = 'Tab bagian',
   className,
 }: TabsProps) {
   const baseId = useId();

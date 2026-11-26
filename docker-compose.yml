@@ -1,0 +1,26 @@
+name: jasasaja-os-dev
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: jasasaja-os-dev-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-jasasaja}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-jasasaja_dev_local}
+      POSTGRES_DB: ${POSTGRES_DB:-jasasaja_os_dev}
+      TZ: Asia/Jakarta
+      PGTZ: Asia/Jakarta
+    ports:
+      - "5433:5432"
+    volumes:
+      - jasasaja_os_dev_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-jasasaja} -d ${POSTGRES_DB:-jasasaja_os_dev}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  jasasaja_os_dev_pgdata:
+    name: jasasaja_os_dev_pgdata

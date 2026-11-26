@@ -65,5 +65,5 @@ test('createSampleActivityPreview builds non-persistent sample entry mapped to o
   assert.equal(created.isSample, true);
   assert.equal(created.sourceModule, 'Project Workspace');
   assert.equal(created.title, 'Prototype API Contract');
-  assert.equal(created.statusLabel, 'Draft (Sample)');
+  assert.equal(created.statusLabel, 'Draft (Contoh)');
 });

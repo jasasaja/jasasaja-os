@@ -54,23 +54,23 @@ const WIDGET_CONFIG: Array<{
 }> = [
   {
     kind: 'learning',
-    title: 'Learning Activity',
-    description: 'Sample · Learning Center',
-    actionLabel: 'Open Learning',
+    title: 'Aktivitas Learning',
+    description: 'Contoh · Learning Center',
+    actionLabel: 'Buka Learning',
     Icon: GraduationCap,
   },
   {
     kind: 'projects',
-    title: 'Project Milestones',
-    description: 'Sample · Project Workspace',
-    actionLabel: 'Open Projects',
+    title: 'Milestone Project',
+    description: 'Contoh · Project Workspace',
+    actionLabel: 'Buka Projects',
     Icon: FolderKanban,
   },
   {
     kind: 'handbook',
-    title: 'Handbook Updates',
-    description: 'Sample · Engineering Handbook',
-    actionLabel: 'Open Handbook',
+    title: 'Pembaruan Handbook',
+    description: 'Contoh · Engineering Handbook',
+    actionLabel: 'Buka Handbook',
     Icon: BookOpen,
   },
 ];
@@ -127,7 +127,7 @@ export function DashboardView({ breadcrumbs, onNavigate }: DashboardViewProps) {
   const handleAddSampleActivity = (e: FormEvent) => {
     e.preventDefault();
     if (draftTitle.trim().length < 2) {
-      setDraftError('Sample activity title must be at least 2 characters.');
+      setDraftError('Judul aktivitas contoh minimal 2 karakter.');
       return;
     }
 
@@ -152,21 +152,21 @@ export function DashboardView({ breadcrumbs, onNavigate }: DashboardViewProps) {
     <div className="space-y-4 sm:space-y-5">
       <PageHeader
         title="Dashboard"
-        description="Sample activity preview aggregated from Learning Center, Project Workspace, and Engineering Handbook."
+        description="Pratinjau aktivitas contoh dari Learning Center, Project Workspace, dan Engineering Handbook."
         breadcrumbs={breadcrumbs}
         onNavigate={onNavigate}
         className="pb-4 mb-0"
         actions={
           <>
             <Button variant="outline" onClick={() => onNavigate('settings')}>
-              Workspace Settings
+              Pengaturan Ruang Kerja
             </Button>
             <Button
               variant="primary"
               leftIcon={<Plus className="h-4 w-4" />}
               onClick={handleOpenSampleDialog}
             >
-              Add Sample Activity
+              Tambah Aktivitas Contoh
             </Button>
           </>
         }
@@ -175,7 +175,7 @@ export function DashboardView({ breadcrumbs, onNavigate }: DashboardViewProps) {
       {/* Compact Priority Summary: 1 column on mobile/tablet, 3 columns on desktop */}
       <section aria-labelledby="operational-summary-heading">
         <h2 id="operational-summary-heading" className="sr-only">
-          Priority Operational Summary (Sample Data)
+          Ringkasan Prioritas Operasional (Data Contoh)
         </h2>
         <div className="rounded-xl border border-line bg-surface shadow-xs grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-line overflow-hidden">
           <button
@@ -183,14 +183,14 @@ export function DashboardView({ breadcrumbs, onNavigate }: DashboardViewProps) {
             onClick={() => onNavigate('learning')}
             className="min-h-[44px] min-w-0 text-left px-3.5 py-2 lg:px-4 lg:py-3 hover:bg-surface-subtle/60 transition-colors cursor-pointer group"
           >
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
               <span className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-secondary min-w-0">
                 <GraduationCap className="h-3.5 w-3.5 text-accent shrink-0" aria-hidden="true" />
-                <span className="truncate">Continue Learning</span>
+                <span className="truncate">Lanjutkan Learning</span>
               </span>
-              <span className="inline-flex items-center gap-1.5 text-[13px] text-ink-muted tabular-nums shrink-0">
+              <span className="inline-flex items-center gap-1.5 text-[13px] text-ink-muted tabular-nums self-start sm:self-auto">
                 <span>
-                  {summary.byWidget.learning.active} active · {learningOpen} open
+                  {summary.byWidget.learning.active} aktif · {learningOpen} terbuka
                 </span>
                 <ArrowRight
                   className="h-3.5 w-3.5 text-ink-muted group-hover:text-ink transition-colors shrink-0"
@@ -198,8 +198,8 @@ export function DashboardView({ breadcrumbs, onNavigate }: DashboardViewProps) {
                 />
               </span>
             </div>
-            <p className="text-sm font-semibold text-ink truncate mt-0.5 lg:mt-1">
-              {continueLearningItem ? continueLearningItem.title : 'All study topics reviewed'}
+            <p className="text-sm font-semibold text-ink truncate mt-1">
+              {continueLearningItem ? continueLearningItem.title : 'Semua topik belajar sudah ditinjau'}
             </p>
           </button>
 
@@ -208,14 +208,14 @@ export function DashboardView({ breadcrumbs, onNavigate }: DashboardViewProps) {
             onClick={() => onNavigate('projects')}
             className="min-h-[44px] min-w-0 text-left px-3.5 py-2 lg:px-4 lg:py-3 hover:bg-surface-subtle/60 transition-colors cursor-pointer group"
           >
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
               <span className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-secondary min-w-0">
                 <FolderKanban className="h-3.5 w-3.5 text-accent shrink-0" aria-hidden="true" />
-                <span className="truncate">Active Projects</span>
+                <span className="truncate">Project Aktif</span>
               </span>
-              <span className="inline-flex items-center gap-1.5 text-[13px] text-ink-muted tabular-nums shrink-0">
+              <span className="inline-flex items-center gap-1.5 text-[13px] text-ink-muted tabular-nums self-start sm:self-auto">
                 <span>
-                  {summary.byWidget.projects.active} active · {projectsOpen} open
+                  {summary.byWidget.projects.active} aktif · {projectsOpen} terbuka
                 </span>
                 <ArrowRight
                   className="h-3.5 w-3.5 text-ink-muted group-hover:text-ink transition-colors shrink-0"
@@ -223,8 +223,8 @@ export function DashboardView({ breadcrumbs, onNavigate }: DashboardViewProps) {
                 />
               </span>
             </div>
-            <p className="text-sm font-semibold text-ink truncate mt-0.5 lg:mt-1">
-              {activeProjectItem ? activeProjectItem.title : 'No open project milestones'}
+            <p className="text-sm font-semibold text-ink truncate mt-1">
+              {activeProjectItem ? activeProjectItem.title : 'Tidak ada milestone proyek terbuka'}
             </p>
           </button>
 
@@ -233,14 +233,14 @@ export function DashboardView({ breadcrumbs, onNavigate }: DashboardViewProps) {
             onClick={() => onNavigate('handbook')}
             className="min-h-[44px] min-w-0 text-left px-3.5 py-2 lg:px-4 lg:py-3 hover:bg-surface-subtle/60 transition-colors cursor-pointer group"
           >
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
               <span className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-secondary min-w-0">
                 <BookOpen className="h-3.5 w-3.5 text-accent shrink-0" aria-hidden="true" />
-                <span className="truncate">Handbook Updates</span>
+                <span className="truncate">Pembaruan Handbook</span>
               </span>
-              <span className="inline-flex items-center gap-1.5 text-[13px] text-ink-muted tabular-nums shrink-0">
+              <span className="inline-flex items-center gap-1.5 text-[13px] text-ink-muted tabular-nums self-start sm:self-auto">
                 <span>
-                  {summary.byWidget.handbook.active} current · {handbookOpen} open
+                  {summary.byWidget.handbook.active} terkini · {handbookOpen} terbuka
                 </span>
                 <ArrowRight
                   className="h-3.5 w-3.5 text-ink-muted group-hover:text-ink transition-colors shrink-0"
@@ -248,8 +248,8 @@ export function DashboardView({ breadcrumbs, onNavigate }: DashboardViewProps) {
                 />
               </span>
             </div>
-            <p className="hidden lg:block text-sm font-semibold text-ink truncate mt-1">
-              {handbookFocusItem ? handbookFocusItem.title : 'All handbook docs reviewed'}
+            <p className="text-sm font-semibold text-ink truncate mt-1">
+              {handbookFocusItem ? handbookFocusItem.title : 'Semua dokumen handbook sudah ditinjau'}
             </p>
           </button>
         </div>
@@ -262,27 +262,27 @@ export function DashboardView({ breadcrumbs, onNavigate }: DashboardViewProps) {
             <SearchInput
               value={searchQuery}
               onValueChange={setSearchQuery}
-              placeholder="Search sample activity..."
-              aria-label="Filter sample activity streams"
+              placeholder="Cari aktivitas contoh..."
+              aria-label="Filter aliran aktivitas contoh"
             />
           </div>
           <Tabs
-            ariaLabel="Filter sample items by operational status"
+            ariaLabel="Filter item contoh berdasarkan status operasional"
             activeId={statusFilter}
             onChange={(id) => setStatusFilter(id as ActivityStatusFilter)}
             items={[
-              { id: 'all', label: 'All' },
-              { id: 'active', label: 'Active' },
-              { id: 'attention', label: 'Attention' },
-              { id: 'completed', label: 'Done' },
+              { id: 'all', label: 'Semua' },
+              { id: 'active', label: 'Aktif' },
+              { id: 'attention', label: 'Perlu Perhatian' },
+              { id: 'completed', label: 'Selesai' },
             ]}
           />
         </div>
 
         <div className="flex flex-wrap items-center justify-between sm:justify-end gap-x-3 gap-y-1 shrink-0">
           <p className={cn(TYPOGRAPHY_CLASSES.supporting, 'font-medium text-ink-muted tabular-nums')}>
-            Sample preview: {totalVisible} of {items.length} · {summary.activeCount} active ·{' '}
-            {summary.attentionCount} attention · {summary.completedCount} done
+            Pratinjau contoh: {totalVisible} dari {items.length} · {summary.activeCount} aktif ·{' '}
+            {summary.attentionCount} perlu perhatian · {summary.completedCount} selesai
           </p>
           {(hasActiveFilters || simulatedEntries.length > 0) && (
             <Button
@@ -297,7 +297,7 @@ export function DashboardView({ breadcrumbs, onNavigate }: DashboardViewProps) {
                 }
               }}
             >
-              {hasActiveFilters ? 'Reset Filters' : 'Reset Samples'}
+              {hasActiveFilters ? 'Atur Ulang Filter' : 'Hapus Contoh'}
             </Button>
           )}
         </div>
@@ -306,7 +306,7 @@ export function DashboardView({ breadcrumbs, onNavigate }: DashboardViewProps) {
       {/* Three Core Aggregated Activity Streams */}
       <section aria-labelledby="core-activity-heading">
         <h2 id="core-activity-heading" className="sr-only">
-          Core Aggregated Activity Streams (Sample Preview)
+          Aliran Aktivitas Agregat (Pratinjau Contoh)
         </h2>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           {WIDGET_CONFIG.map(({ kind, title, description, actionLabel, Icon }) => {
@@ -334,9 +334,9 @@ export function DashboardView({ breadcrumbs, onNavigate }: DashboardViewProps) {
                 <CardContent className="p-0 flex-1">
                   {widgetItems.length === 0 ? (
                     <EmptyState
-                      title="No sample items match current filters"
-                      description="Reset search or status filters to view the sample entries from this module."
-                      actionLabel="Reset Filters"
+                      title="Tidak ada item contoh yang cocok dengan filter"
+                      description="Atur ulang pencarian atau filter status untuk melihat entri contoh dari modul ini."
+                      actionLabel="Atur Ulang Filter"
                       onAction={() => {
                         setSearchQuery('');
                         setStatusFilter('all');
@@ -383,8 +383,8 @@ export function DashboardView({ breadcrumbs, onNavigate }: DashboardViewProps) {
                 <CardFooter className="bg-surface-subtle/30">
                   <span className={cn(TYPOGRAPHY_CLASSES.supporting, 'text-ink-muted tabular-nums')}>
                     {openCount === 0
-                      ? 'All sample items completed'
-                      : `${stats.active} active · ${stats.attention} queued`}
+                      ? 'Semua item contoh selesai'
+                      : `${stats.active} aktif · ${stats.attention} antrean`}
                   </span>
                   <Button
                     variant="ghost"
@@ -403,31 +403,31 @@ export function DashboardView({ breadcrumbs, onNavigate }: DashboardViewProps) {
 
       {/* Transparent Sample Data & Prototype Simulation Notice */}
       <aside
-        aria-label="Sample data notice"
+        aria-label="Pemberitahuan data contoh"
         className="rounded-xl border border-line bg-surface-subtle/60 px-4 py-3 flex items-start gap-3"
       >
         <Info className="h-4 w-4 text-ink-muted shrink-0 mt-0.5" aria-hidden="true" />
         <p className={cn(TYPOGRAPHY_CLASSES.supporting, 'text-ink-secondary leading-relaxed')}>
-          <strong className="font-semibold text-ink">Sample / Demo Data:</strong> Entries shown on
-          this dashboard are prototype samples, not saved user records.{' '}
-          <strong className="font-medium text-ink">Add Sample Activity</strong> only simulates an
-          in-memory preview entry—real Learning lessons, Handbook documents, and Project milestones
-          must be created in their owning modules.
+          <strong className="font-semibold text-ink">Data Contoh/Demo:</strong> Entri yang
+          ditampilkan di dashboard ini adalah contoh prototipe, bukan data pengguna yang tersimpan.{' '}
+          <strong className="font-medium text-ink">Tambah Aktivitas Contoh</strong> hanya
+          mensimulasikan entri pratinjau dalam memori—lesson Learning, dokumen Handbook, dan milestone
+          Project yang nyata harus dibuat di modul masing-masing.
         </p>
       </aside>
 
       <Dialog
         open={sampleDialogOpen}
         onClose={() => setSampleDialogOpen(false)}
-        title="Add Sample Activity (Simulation)"
-        description="Simulates a temporary sample entry in memory to preview how dashboard aggregation renders."
+        title="Tambah Aktivitas Contoh (Simulasi)"
+        description="Mensimulasikan entri contoh sementara di memori untuk melihat tampilan agregat dashboard."
         footer={
           <>
             <Button variant="outline" onClick={() => setSampleDialogOpen(false)}>
-              Cancel
+              Batal
             </Button>
             <Button type="submit" form="sample-activity-form" variant="primary">
-              Add Sample Entry
+              Tambah Entri Contoh
             </Button>
           </>
         }
@@ -439,42 +439,42 @@ export function DashboardView({ breadcrumbs, onNavigate }: DashboardViewProps) {
           >
             <Info className="h-4 w-4 text-ink-muted shrink-0 mt-0.5" aria-hidden="true" />
             <p className={cn(TYPOGRAPHY_CLASSES.supporting, 'text-ink-secondary leading-relaxed')}>
-              This is a prototype simulation and is not saved. It does not create a real Learning
-              lesson, Handbook document, or Project milestone—in the actual app, items are created
-              inside their owning modules.
+              Ini adalah simulasi prototipe dan tidak disimpan. Entri ini tidak membuat lesson
+              Learning, dokumen Handbook, atau milestone Project yang nyata—pada aplikasi nyata, item
+              dibuat di dalam modul masing-masing.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Select
-              label="Preview Stream"
+              label="Aliran Pratinjau"
               value={draftWidget}
               onChange={(e) => setDraftWidget(e.target.value as ActivityWidgetKind)}
               options={[
-                { value: 'learning', label: 'Learning Activity (Sample)' },
-                { value: 'projects', label: 'Project Milestones (Sample)' },
-                { value: 'handbook', label: 'Handbook Updates (Sample)' },
+                { value: 'learning', label: 'Aktivitas Learning (Contoh)' },
+                { value: 'projects', label: 'Milestone Project (Contoh)' },
+                { value: 'handbook', label: 'Pembaruan Handbook (Contoh)' },
               ]}
             />
 
             <Select
-              label="Sample Status"
+              label="Status Contoh"
               value={draftStatus}
               onChange={(e) =>
                 setDraftStatus(e.target.value as 'active' | 'pending' | 'warning')
               }
               options={[
-                { value: 'active', label: 'Active (Sample)' },
-                { value: 'pending', label: 'Queued (Sample)' },
-                { value: 'warning', label: 'Draft (Sample)' },
+                { value: 'active', label: 'Aktif (Contoh)' },
+                { value: 'pending', label: 'Antrean (Contoh)' },
+                { value: 'warning', label: 'Draft (Contoh)' },
               ]}
             />
           </div>
 
           <Input
-            label="Sample Title"
+            label="Judul Contoh"
             required
-            placeholder="e.g., Preview HTTP/3 connection notes"
+            placeholder="mis., Pratinjau catatan koneksi HTTP/3"
             value={draftTitle}
             onChange={(e) => {
               setDraftTitle(e.target.value);
@@ -484,8 +484,8 @@ export function DashboardView({ breadcrumbs, onNavigate }: DashboardViewProps) {
           />
 
           <Input
-            label="Sample Context"
-            placeholder="Optional (e.g., Systems Track · 15 min preview)"
+            label="Konteks Contoh"
+            placeholder="Opsional (mis., Jalur Systems · pratinjau 15 menit)"
             value={draftMeta}
             onChange={(e) => setDraftMeta(e.target.value)}
           />

@@ -14,7 +14,7 @@ export const DEFAULT_WORKSPACE_SETTINGS: WorkspaceSettings = {
   theme: 'light',
   density: 'comfortable',
   sidebarCollapsed: false,
-  bio: 'Personal operating system for structured learning, engineering standards, and project execution.',
+  bio: 'Sistem operasi personal untuk pembelajaran terstruktur, standar engineering, dan eksekusi proyek.',
 };
 
 const VALID_ROUTES = new Set<RouteId>(['dashboard', 'learning', 'handbook', 'projects', 'settings']);
@@ -94,19 +94,19 @@ export function validateWorkspaceSettings(draft: WorkspaceSettings): SettingsVal
   const errors: SettingsValidationErrors = {};
 
   if (!draft.workspaceName.trim()) {
-    errors.workspaceName = 'Workspace name is required.';
+    errors.workspaceName = 'Nama ruang kerja wajib diisi.';
   } else if (draft.workspaceName.trim().length < 2) {
-    errors.workspaceName = 'Workspace name must be at least 2 characters.';
+    errors.workspaceName = 'Nama ruang kerja minimal 2 karakter.';
   }
 
   if (!draft.displayName.trim()) {
-    errors.displayName = 'Display name is required.';
+    errors.displayName = 'Nama tampilan wajib diisi.';
   } else if (draft.displayName.trim().length < 2) {
-    errors.displayName = 'Display name must be at least 2 characters.';
+    errors.displayName = 'Nama tampilan minimal 2 karakter.';
   }
 
   if (draft.bio.length > 240) {
-    errors.bio = 'Bio must be 240 characters or fewer.';
+    errors.bio = 'Ringkasan maksimal 240 karakter.';
   }
 
   return errors;
@@ -150,7 +150,7 @@ export function saveWorkspaceSettings(
     return {
       ok: false,
       error:
-        'Browser localStorage is unavailable. Preferences apply to the current session only.',
+        'localStorage browser tidak tersedia. Preferensi hanya berlaku untuk sesi ini.',
     };
   }
 
@@ -164,7 +164,7 @@ export function saveWorkspaceSettings(
         : 'Storage access blocked or quota exceeded';
     return {
       ok: false,
-      error: `Failed to save temporary preferences (${reason}). Changes apply to this session only.`,
+      error: `Gagal menyimpan preferensi sementara (${reason}). Perubahan hanya berlaku pada sesi ini.`,
     };
   }
 }

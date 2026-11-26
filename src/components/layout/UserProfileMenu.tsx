@@ -27,25 +27,25 @@ export function UserProfileMenu({
   const menuItems: DropdownEntry[] = [
     {
       id: 'profile',
-      label: 'Account & Auth Status',
+      label: 'Akun & Status Autentikasi',
       icon: <User className="h-4 w-4" />,
       onSelect: () => setProfileOpen(true),
     },
     {
       id: 'settings',
-      label: 'Workspace Settings',
+      label: 'Pengaturan Ruang Kerja',
       icon: <Settings className="h-4 w-4" />,
       onSelect: () => onNavigate('settings'),
     },
     {
       id: 'theme',
-      label: theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode',
+      label: theme === 'light' ? 'Ganti ke Mode Gelap' : 'Ganti ke Mode Terang',
       icon: theme === 'light' ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />,
       onSelect: onToggleTheme,
     },
     {
       id: 'auth-info',
-      label: 'Authentication Unavailable',
+      label: 'Autentikasi Belum Tersedia',
       icon: <Info className="h-4 w-4" />,
       dividerBefore: true,
       onSelect: () => setProfileOpen(true),
@@ -63,7 +63,7 @@ export function UserProfileMenu({
           <button
             type="button"
             {...triggerProps}
-            aria-label={`User menu for ${user.name}`}
+            aria-label={`Menu pengguna untuk ${user.name}`}
             className={cn(
               'flex items-center gap-3 rounded-lg transition-colors duration-150 cursor-pointer text-left',
               'hover:bg-surface-subtle focus-visible:bg-surface-subtle',
@@ -104,8 +104,8 @@ export function UserProfileMenu({
       <Dialog
         open={profileOpen}
         onClose={() => setProfileOpen(false)}
-        title="Workspace Profile & Authentication"
-        description="Local operator identity for this foundation workspace."
+        title="Profil Ruang Kerja & Autentikasi"
+        description="Identitas operator lokal untuk workspace fondasi ini."
         size="sm"
       >
         <div className="space-y-4">
@@ -121,23 +121,23 @@ export function UserProfileMenu({
 
           <dl className="grid grid-cols-2 gap-3 text-sm leading-normal">
             <div>
-              <dt className="text-[13px] leading-normal text-ink-muted">Role</dt>
+              <dt className="text-[13px] leading-normal text-ink-muted">Peran</dt>
               <dd className="font-medium text-ink mt-0.5">{user.role}</dd>
             </div>
             <div>
-              <dt className="text-[13px] leading-normal text-ink-muted">Theme</dt>
+              <dt className="text-[13px] leading-normal text-ink-muted">Tema</dt>
               <dd className="font-medium text-ink mt-0.5 capitalize">{theme}</dd>
             </div>
             <div className="col-span-2">
-              <dt className="text-[13px] leading-normal text-ink-muted mb-1">Authentication</dt>
+              <dt className="text-[13px] leading-normal text-ink-muted mb-1">Autentikasi</dt>
               <dd>
-                <StatusIndicator status="inactive" label="Not available yet" size="sm" />
+                <StatusIndicator status="inactive" label="Belum tersedia" size="sm" />
               </dd>
             </div>
           </dl>
 
           <p className="text-[13px] text-ink-secondary leading-relaxed pt-3 border-t border-line">
-            Authentication and sign-out are not yet available in this foundation build. UI preferences are stored temporarily in browser localStorage and do not replace an application database.
+            Autentikasi dan keluar belum tersedia pada build fondasi ini. Preferensi UI disimpan sementara di localStorage browser dan tidak menggantikan database aplikasi.
           </p>
         </div>
       </Dialog>

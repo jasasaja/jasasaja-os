@@ -5,31 +5,31 @@ export const NAV_ITEMS: readonly NavItem[] = [
     id: 'dashboard',
     label: 'Dashboard',
     path: '/dashboard',
-    description: 'Workspace activity summary across learning, handbook, and projects.',
+    description: 'Ringkasan aktivitas ruang kerja untuk Learning Center, Handbook, dan Project Workspace.',
   },
   {
     id: 'learning',
     label: 'Learning',
     path: '/learning',
-    description: 'Structured study tracks, active notes, and spaced review queues.',
+    description: 'Jalur belajar terstruktur, catatan aktif, dan antrean pengulangan berjadwal.',
   },
   {
     id: 'handbook',
     label: 'Handbook',
     path: '/handbook',
-    description: 'Personal engineering playbooks, architecture decisions, and standards.',
+    description: 'Panduan engineering pribadi, keputusan arsitektur, dan standar kerja.',
   },
   {
     id: 'projects',
     label: 'Projects',
     path: '/projects',
-    description: 'Active builds, milestone tracking, and technical specifications.',
+    description: 'Proyek aktif, pelacakan milestone, dan spesifikasi teknis.',
   },
   {
     id: 'settings',
     label: 'Settings',
     path: '/settings',
-    description: 'Workspace identity, appearance preferences, and layout configuration.',
+    description: 'Identitas ruang kerja, preferensi tampilan, dan konfigurasi tata letak.',
   },
 ] as const;
 
@@ -112,6 +112,6 @@ export function getBreadcrumbsForRoute(
 export function getNotFoundBreadcrumbs(workspaceName = 'JASASAJA OS'): BreadcrumbItem[] {
   return [
     { label: workspaceName, routeId: 'dashboard' },
-    { label: 'Not Found', current: true },
+    { label: 'Tidak Ditemukan', current: true },
   ];
 }

@@ -121,7 +121,7 @@ export function MobileNavDrawer({
         ref={drawerRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Mobile navigation"
+        aria-label="Navigasi mobile"
         tabIndex={-1}
         className="relative z-10 w-[280px] max-w-[85vw] h-dvh bg-surface border-r border-line shadow-overlay flex flex-col"
       >
@@ -142,14 +142,14 @@ export function MobileNavDrawer({
             ref={closeButtonRef}
             type="button"
             onClick={onClose}
-            aria-label="Close navigation menu"
+            aria-label="Tutup menu navigasi"
             className="min-h-11 min-w-11 -mr-2 inline-flex items-center justify-center rounded-lg text-ink-muted hover:text-ink hover:bg-surface-subtle transition-colors cursor-pointer"
           >
             <X className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
 
-        <nav aria-label="Mobile primary navigation" className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+        <nav aria-label="Navigasi utama mobile" className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
           {NAV_ITEMS.map((item) => {
             const Icon = ROUTE_ICONS[item.id];
             const active = isNavItemActive(currentRoute, item.id);

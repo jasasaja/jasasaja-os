@@ -14,10 +14,10 @@ export interface ErrorStateProps {
 }
 
 export function ErrorState({
-  title = 'Unable to load content',
+  title = 'Gagal memuat konten',
   message,
   onRetry,
-  retryLabel = 'Try Again',
+  retryLabel = 'Coba Lagi',
   secondaryActionLabel,
   onSecondaryAction,
   className,

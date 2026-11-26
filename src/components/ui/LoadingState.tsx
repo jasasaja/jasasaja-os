@@ -10,7 +10,7 @@ export interface LoadingStateProps {
 
 export function LoadingState({
   variant = 'spinner',
-  label = 'Loading workspace data...',
+  label = 'Memuat data ruang kerja...',
   rows = 3,
   className,
 }: LoadingStateProps) {

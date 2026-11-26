@@ -49,7 +49,7 @@ export function Sidebar({
 }: SidebarProps) {
   return (
     <aside
-      aria-label="Workspace sidebar"
+      aria-label="Sidebar ruang kerja"
       className={cn(
         'hidden lg:flex flex-col shrink-0 border-r border-line bg-surface select-none',
         'transition-[width] duration-150 ease-out sticky top-0 h-dvh',
@@ -81,11 +81,11 @@ export function Sidebar({
           </button>
         )}
 
-        <Tooltip content={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} side="right">
+        <Tooltip content={collapsed ? 'Perbesar sidebar' : 'Perkecil sidebar'} side="right">
           <button
             type="button"
             onClick={onToggleCollapse}
-            aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            aria-label={collapsed ? 'Perbesar sidebar' : 'Perkecil sidebar'}
             aria-expanded={!collapsed}
             className="min-h-9 min-w-9 inline-flex items-center justify-center rounded-lg text-ink-muted hover:text-ink hover:bg-surface-subtle transition-colors cursor-pointer shrink-0"
           >
@@ -99,7 +99,7 @@ export function Sidebar({
       </div>
 
       {/* Primary Navigation */}
-      <nav aria-label="Primary navigation" className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+      <nav aria-label="Navigasi utama" className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
         {NAV_ITEMS.map((item) => {
           const Icon = ROUTE_ICONS[item.id];
           const active = isNavItemActive(currentRoute, item.id);

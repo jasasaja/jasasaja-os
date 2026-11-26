@@ -92,7 +92,7 @@ test('breadcrumbs and active checks work for known and unknown routes', () => {
   assert.equal(dashTrail[1].current, true);
 
   const notFoundTrail = getNotFoundBreadcrumbs('JASASAJA');
-  assert.equal(notFoundTrail[1].label, 'Not Found');
+  assert.equal(notFoundTrail[1].label, 'Tidak Ditemukan');
   assert.equal(notFoundTrail[1].current, true);
 
   assert.equal(isNavItemActive('projects', 'projects'), true);
