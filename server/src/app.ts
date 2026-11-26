@@ -3,6 +3,7 @@ import { ZodError } from "zod";
 import { isAppError, loggerOptions } from "./modules/shared/core/index.ts";
 import { authGuard } from "./modules/shared/core/auth/guard.ts";
 import { registerAuthRoutes } from "./modules/shared/core/auth/routes.ts";
+import { registerLearningRoutes } from "./modules/learning/routes.ts";
 
 function formatZodDetails(error: ZodError) {
   return error.issues.map((issue) => ({
@@ -19,6 +20,7 @@ export function buildApp(): FastifyInstance {
 
   app.addHook("preHandler", authGuard);
   registerAuthRoutes(app);
+  registerLearningRoutes(app);
 
   app.get("/api/health", async () => ({
     data: {
