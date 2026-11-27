@@ -1,9 +1,9 @@
 # ADR-010: Migrasi ke Next.js App Router
 
-- **Status:** **Accepted** — keputusan arsitektur disetujui pengguna 2026-11-27. **Accepted = keputusan arsitektur; TIDAK memberi izin implementasi slice, instalasi dependency, push, atau deploy.** Tiap slice tetap butuh izin sendiri. ADR-002 dan ADR-004 ditandai `Accepted — superseded in part by ADR-010` di `docs/adr-status.md`; ADR-001, ADR-003, ADR-005–ADR-009 tetap `Accepted`.
+- **Status:** **Accepted** — keputusan arsitektur disetujui pengguna 2026-11-27; **Amandemen 2026-11-27** menetapkan Usulan B, revisi Slice 0/Slice 5, dan OD-TEST. **Accepted = keputusan arsitektur; TIDAK memberi izin implementasi slice, instalasi dependency, atau deploy.** Push branch/tag checkpoint diizinkan eksplisit pada M0c setelah secret scan bersih; repo tetap PUBLIC. Tiap slice implementasi tetap butuh izin sendiri. ADR-002 dan ADR-004 ditandai `Accepted — superseded in part by ADR-010` di `docs/adr-status.md`; ADR-001, ADR-003, ADR-005–ADR-009 tetap `Accepted`.
 - **Tanggal:** 2026-11-27
 - **Sumber:** Keputusan pengguna 2026-11-27 untuk memindahkan aplikasi ke Next.js (App Router) yang di-deploy ke Vercel; [`docs/change-control.md`](../change-control.md) gate arsitektur & dependency; [`docs/adr-status.md`](../adr-status.md); [`docs/od-002-deploy-constraint.md`](../od-002-deploy-constraint.md); inspeksi kode aktual di `src/`, `server/src/`, `package.json`, dan `server/src/db/`.
-- **Checkpoint:** tag anotasi `pre-nextjs-migration` pada HEAD `main` `d40df91e04e4eaddc88917e4e47c0cc10be9fce8` (lokal, belum di-push).
+- **Checkpoint:** tag anotasi `pre-nextjs-migration` pada HEAD `main` `d40df91e04e4eaddc88917e4e47c0cc10be9fce8`; branch `feat/nextjs-migration` dan tag tersebut di-push ke `origin` pada 2026-11-27 (M0c, langkah 4) setelah secret scan history bersih. Repo tetap PUBLIC.
 
 ## Konteks
 
@@ -22,7 +22,24 @@ Alasan pengguna memutuskan migrasi:
 2. **Auth cookie satu origin** — cookie sesi, callback OAuth, dan pengecekan `Origin` menjadi konsisten karena UI dan `/api` berada di origin yang sama; mengurangi risiko konfigurasi lintas-origin.
 3. **Selaras dengan stack utama pengguna dan Vercel** — React/TypeScript tetap dipakai, tetapi framework yang dipakai adalah Next.js yang didukung native oleh Vercel. Ini juga menjawab constraint OD-002: [`docs/od-002-deploy-constraint.md`](../od-002-deploy-constraint.md) mencatat bahwa Fastify long-running tidak langsung cocok dengan model Vercel dan belum diadaptasi.
 
-Persetujuan 2026-11-27 mengizinkan checkpoint (`pre-nextjs-migration`), branch `feat/nextjs-migration`, dan menetapkan ADR ini sebagai **keputusan arsitektur**. Status `Accepted` tidak memberi izin implementasi slice, instalasi dependency, push, deploy, atau perubahan kode/konfigurasi/data; tiap slice tetap memerlukan izin eksplisit tersendiri.
+Persetujuan 2026-11-27 mengizinkan checkpoint (`pre-nextjs-migration`), branch `feat/nextjs-migration`, dan menetapkan ADR ini sebagai **keputusan arsitektur**. Status `Accepted` tidak memberi izin implementasi slice, instalasi dependency, deploy, atau perubahan kode/konfigurasi/data; tiap slice tetap memerlukan izin eksplisit tersendiri. Push checkpoint diizinkan hanya melalui M0c setelah secret scan bersih.
+
+## Amandemen 2026-11-27
+
+Pengguna memutuskan amandemen ini pada 2026-11-27. Amandemen mengubah cakupan ADR-010 di bawah ini; bagian lain tetap mengikuti ADR-010 `Accepted` dari M0b. Amandemen ini **bukan** izin implementasi slice, instalasi dependency, atau deploy.
+
+| Topik | Keputusan amandemen | Catatan |
+|---|---|---|
+| **Usulan A' — refactor logika di Fastify sebelum migrasi** | **Dipertimbangkan, ditolak pengguna** | Tidak ada fase refactor pra-migrasi. Mitigasi: tiap slice mengekstrak logika ke `lib/` dalam **commit terpisah sebelum menulis handler** Next.js, agar ekstraksi terverifikasi dan dapat dirollback tanpa mencampur rewrite handler. |
+| **Usulan B — shell SPA lebih awal** | **Disetujui** | Slice 0 memuat shell SPA (`src/App.tsx`) sebagai **Client Component di dalam Next.js** agar aplikasi dapat dilihat berjalan sejak awal. Slice 5 berubah menjadi **memecah shell menjadi route App Router**; deep link `?item=` dipertahankan. |
+| **OD-TEST** | **Decided — 2026-11-27** | `node:test` + `tsx` tetap dipakai; **tidak ada runner baru**. Route Handler diuji sebagai fungsi `Request → Response`; mock `pg.Pool` dan test DB nyata tetap dipakai. |
+| **Gerbang verifikasi Slice 0** | **Wajib** | Sebelum Slice 0 lulus, verifikasi kompatibilitas Next.js dengan **TypeScript 7** dan **Node LTS**. CI saat ini memakai **Node 20** (`.github/workflows/ci.yml`) dan perlu dievaluasi. Jika tidak cocok, **keputusan versi dikembalikan kepada pengguna** — jangan memilih versi sendiri. |
+
+**Revisi Slice 0:** Kerangka Next.js App Router + TypeScript, `GET /api/health`, harness typecheck/lint/test (`node:test` + `tsx`), **serta shell SPA `src/App.tsx` sebagai Client Component di dalam Next.js** agar aplikasi terlihat berjalan sejak awal. Fastify tetap menjadi acuan paritas. Verifikasi minimal: build/typecheck/test lulus; health publik sesuai envelope; shell tampil; **kompatibilitas TypeScript 7 + Node LTS/Node 20 di CI terverifikasi**; bila tidak cocok, versi dikembalikan ke pengguna.
+
+**Revisi Slice 5:** Bukan lagi "memindahkan 5 halaman SPA ke App Router", melainkan **memecah shell SPA yang sudah berjalan sejak Slice 0 menjadi route App Router**. Deep link `?item=` dan perilaku navigasi existing dipertahankan; klien `apiFetch`, loading/error/empty state, serta QA aksesibilitas/responsive tetap diverifikasi.
+
+Push checkpoint pada M0c diizinkan pengguna setelah secret scan seluruh history (semua branch dan tag) dinyatakan bersih. Urutan yang disetujui: verifikasi `git remote -v` menunjukkan `origin = https://github.com/jasasaja/jasasaja-os.git`, lalu `git push -u origin feat/nextjs-migration` dan `git push origin pre-nextjs-migration`. Repo tetap PUBLIC; visibilitas tidak diubah.
 
 ## Keputusan
 
@@ -37,17 +54,20 @@ Persetujuan 2026-11-27 mengizinkan checkpoint (`pre-nextjs-migration`), branch `
 
 | Keputusan | Status | Keterangan |
 |---|---|---|
-| Next.js App Router + TypeScript | **Accepted (keputusan arsitektur)** | Implementasi menunggu izin slice; bukan izin dependency/deploy |
-| Route Handlers/Server Actions menggantikan Fastify | **Accepted sebagai arah arsitektur** | 34 endpoint `/api` saat ini; paritas kontrak wajib, dikerjakan per slice |
+| Next.js App Router + TypeScript | **Accepted (keputusan arsitektur)** | Implementasi menunggu izin slice; bukan izin dependency/deploy; kompatibilitas TypeScript 7/Node LTS jadi gerbang Slice 0 |
+| Route Handlers/Server Actions menggantikan Fastify | **Accepted sebagai arah arsitektur** | 34 endpoint `/api` saat ini; paritas kontrak wajib, dikerjakan per slice; ekstraksi ke `lib/` di commit terpisah sebelum handler |
 | Drizzle schema & migrasi dipertahankan | **Accepted sebagai keputusan lanjutan** | ADR-003 tetap `Accepted`; tidak ada perubahan schema dalam keputusan ini |
 | Zod dipertahankan | **Accepted sebagai keputusan lanjutan** | ADR-002 bagian Zod tetap `Accepted`; ekstraksi dari route Fastify menyusul saat slice diizinkan |
 | Library auth teruji menggantikan OAuth manual | **Proposed** | Belum dipilih; versi/adaptor/strategi session = OD-001 (migrasi) masih **Open** |
 | Google Login, single owner, tanpa registrasi publik | **Accepted sebagai requirement** | ADR-004/OD-003 tetap berlaku |
 | Neon Free sebagai DB online | **Accepted** | OD-002 2026-11-26; detail deploy masih terbuka |
 | Vercel sebagai target deploy (OD-002 existing) | **Accepted** | OD-002 2026-11-26 dengan constraint; detail hosting/runtime migrasi tetap **Proposed** (OD-002 migrasi masih **Open**) |
+| Strategi test `node:test` + `tsx` (OD-TEST) | **Decided — 2026-11-27** | Tanpa runner baru; Route Handler diuji sebagai fungsi `Request → Response` |
+| Slice 0 — shell SPA sebagai Client Component | **Disetujui (Amandemen 2026-11-27)** | Aplikasi terlihat berjalan sejak awal; Slice 5 memecah shell ke route App Router dengan `?item=` dipertahankan |
 | Instalasi dependency / perubahan `package.json` & lockfile | **Tidak diizinkan pada ADR ini** | Butuh izin eksplisit terpisah |
 | Status ADR-001–ADR-009 | **ADR-002 & ADR-004: Accepted — superseded in part by ADR-010** | ADR-001, ADR-003, ADR-005–ADR-009 tetap `Accepted` |
-| `git push` / deploy / aktivasi akun | **Tidak diizinkan pada ADR ini** | Tag dan branch bersifat lokal |
+| `git push` branch/tag checkpoint | **Diizinkan pada M0c** | Setelah secret scan bersih; origin terverifikasi; repo tetap PUBLIC |
+| Deploy / aktivasi akun / `push` ke main | **Tidak diizinkan** | Butuh izin eksplisit terpisah; tidak ada force push, merge, rebase, atau reset |
 
 ## Opsi yang dipertimbangkan
 
@@ -57,7 +77,7 @@ Persetujuan 2026-11-27 mengizinkan checkpoint (`pre-nextjs-migration`), branch `
 | **A — Vite + Fastify host terpisah** | Sedang | Rp0–rendah (tergantung host API) | Buruk/rapuh: dua origin, CORS/allowlist, cookie lintas host, dua deploy | Frontend mudah; API butuh adaptasi serverless | **Tidak dipilih** — tidak menyelesaikan constraint OD-002 |
 | **B — Vite + Fastify satu server** (Fastify menyajikan `dist/` + `/api`) | Sedang | Rp0–rendah | Baik: satu origin | Tidak native: proses long-running tetap perlu host Node/adaptor | **Tidak dipilih** — constraint OD-002 tetap ada |
 
-Opsi A/B tetap dicatat sebagai arsip perbandingan; keduanya tidak mengubah kode atau dependency sekarang.
+Opsi A/B tetap dicatat sebagai arsip perbandingan; keduanya tidak mengubah kode atau dependency sekarang. Selain itu, **Usulan A' (refactor logika di Fastify sebelum migrasi) dipertimbangkan dan ditolak pengguna pada 2026-11-27**; mitigasinya tercatat di Amandemen 2026-11-27 — tiap slice mengekstrak logika ke `lib/` dalam commit terpisah sebelum menulis handler Next.js.
 
 ## Konsekuensi dan risiko
 
@@ -103,7 +123,7 @@ Opsi A/B tetap dicatat sebagai arsip perbandingan; keduanya tidak mengubah kode 
 | Server entry & wiring | `server/src/server.ts`, `server/src/app.ts` (`buildApp`, `authGuard`, `registerApiErrorHandlers`, `app.listen`, signal handler) | Tidak ada Fastify instance di Next.js; lifecycle digantikan runtime Next/Vercel |
 | 34 registrasi route Fastify | `server/src/modules/*/routes.ts` dengan `FastifyInstance`, `request`, `reply` | Ditulis sebagai `app/api/.../route.ts` (Route Handlers) / Server Actions; perlu mapping `Request`/`Response` |
 | Auth manual | `server/src/modules/shared/core/auth/{routes,guard,cookies,crypto,oauth-state,sessions}.ts` — OAuth fetch, HMAC state, cookie serialization, guard, session create/revoke | Diganti library teruji; requirement ADR-004/OD-003 tetap mengikat. Tabel `sessions` dievaluasi di OD-001 (migrasi) |
-| Halaman/routing SPA | `src/main.tsx` (`createRoot`), `src/App.tsx` (`pushState`/`popstate`, `resolveRoute`, deep-link `?item`), 5 `src/components/views/*View.tsx` sebagai halaman | Dipindah ke App Router (`app/layout.tsx`, segmen halaman); komponen UI anak dipakai ulang |
+| Halaman/routing SPA | `src/main.tsx` (`createRoot`), `src/App.tsx` (`pushState`/`popstate`, `resolveRoute`, deep-link `?item`), 5 `src/components/views/*View.tsx` sebagai halaman | Amandemen 2026-11-27: Slice 0 memakai shell `src/App.tsx` sebagai Client Component di Next.js; Slice 5 memecah shell menjadi route App Router (`app/layout.tsx`, segmen halaman) dengan `?item=` dipertahankan; komponen UI anak dipakai ulang |
 | Build & dev config | `vite.config.ts` (proxy `/api`, copy asset plugin), `index.html`, `package.json` scripts `dev`/`dev:api`/`build`/`test`, `tsconfig.json`, `server/tsconfig.json`, `drizzle.config.ts`, `.github/workflows/ci.yml`, `README.md` | Perlu konfigurasi Next/build/test baru **hanya setelah izin implementasi** |
 | Harness test route | `app.inject()` di `server/src/modules/*/routes.test.ts` dan `e2e-handbook-project.routes.test.ts` | Diganti pemanggilan handler/route Next; ekspektasi SQL dan rule tetap dipertahankan |
 
@@ -113,23 +133,23 @@ Setiap slice memerlukan izin implementasi tersendiri, satu slice kecil, verifika
 
 | Slice | Lingkup | Verifikasi minimal sebelum lanjut |
 |---|---|---|
-| 0 — Fondasi | Kerangka Next.js App Router + TypeScript, `GET /api/health`, harness typecheck/lint/test; Fastify masih menjadi acuan paritas | Build/typecheck/test lulus; health publik merespons sesuai envelope |
+| 0 — Fondasi (diubah M0c) | Kerangka Next.js App Router + TypeScript, `GET /api/health`, harness typecheck/lint/test (`node:test` + `tsx`), **serta shell SPA `src/App.tsx` sebagai Client Component** agar aplikasi terlihat berjalan; Fastify masih acuan paritas | Build/typecheck/test lulus; health publik sesuai envelope; shell tampil; **kompatibilitas TypeScript 7 + Node LTS (Node 20 di CI) terverifikasi**; bila tidak cocok, versi dikembalikan ke pengguna |
 | 1 — Auth | Library auth teruji, Google Login single-owner, cookie/CSRF/OAuth state, `/api/auth/me`, `/api/auth/logout`; OD-001 (migrasi) harus diputuskan | Uji `401/403`, cookie flags, callback, CSRF, allowlist owner; tidak ada secret di log |
 | 2 — Learning | 11 endpoint + Zod + transaksi versi/progress (tanpa perubahan schema) | Paritas 11 endpoint; aturan `Draft → Approved`, `Mastered`, dan `PUT`/`PATCH` progress lulus |
 | 3 — Handbook | 8 endpoint + pencarian + approval dengan lock/partial unique index | Paritas 8 endpoint; uji DB nyata untuk satu-versi-Approved |
 | 4 — Projects | 10 endpoint + milestone/task + referensi handbook | Paritas 10 endpoint; konversi tanggal `YYYY-MM-DD` dan referensi lintas modul lulus |
-| 5 — UI | 5 halaman ke App Router, deep link `?item=`, klien `apiFetch`, QA manual | Navigasi/deep link, loading/error/empty state, aksesibilitas/responsive sesuai baseline |
+| 5 — UI (diubah M0c) | **Pecah shell SPA dari Slice 0 menjadi route App Router**; deep link `?item=`, klien `apiFetch`, QA manual | Navigasi/deep link, loading/error/empty state, aksesibilitas/responsive sesuai baseline |
 | 6 — Deploy (terpisah) | Vercel + Neon, env/secrets, prosedur migrasi, smoke test; butuh detail OD-002 (migrasi) + izin deploy | Deploy-ready dinyatakan hanya setelah smoke test dan checklist deploy disetujui |
 
-**Rollback per slice:** hentikan slice, alihkan kembali ke artefak/commit terakhir yang lulus sebelum slice tersebut. Kode dapat dikembalikan dari tag lokal `pre-nextjs-migration` (misalnya membuat branch/restore dari tag; **jangan** menyentuh `main` atau melakukan reset tanpa izin). Karena migrasi ini tidak merencanakan perubahan schema, rollback data umumnya tidak diperlukan; bila suatu slice tetap mengubah data, jangan menghapus/menimpa data — gunakan dump `pg_dump -Fc` + checksum sesuai ADR-008 dan verifikasi restore di DB scratch. Tag belum di-push; sebelum kolaborasi perlu keputusan terpisah untuk mempublikasikan checkpoint.
+**Rollback per slice:** hentikan slice, alihkan kembali ke artefak/commit terakhir yang lulus sebelum slice tersebut. Kode dapat dikembalikan dari tag lokal `pre-nextjs-migration` (misalnya membuat branch/restore dari tag; **jangan** menyentuh `main` atau melakukan reset tanpa izin). Karena migrasi ini tidak merencanakan perubahan schema, rollback data umumnya tidak diperlukan; bila suatu slice tetap mengubah data, jangan menghapus/menimpa data — gunakan dump `pg_dump -Fc` + checksum sesuai ADR-008 dan verifikasi restore di DB scratch. Tag dan branch checkpoint telah di-push ke `origin` pada M0c setelah secret scan bersih; repo tetap PUBLIC. Push lain tetap memerlukan izin eksplisit.
 
 ## Open questions
 
 | ID | Topik | Status | Yang perlu diputuskan |
 |---|---|---|---|
-| **OD-001 (migrasi)** | Versi Next.js & library auth (Auth.js/NextAuth) | **Open** | Versi final dan kompatibilitas React 19/TypeScript 7, adapter/strategi session (apakah tabel `sessions` existing dipakai), serta persetujuan dependency. **Ini bukan OD-001 di `adr-status.md`** (pinning Fastify/Zod/Drizzle yang sudah Approved). |
+| **OD-001 (migrasi)** | Versi Next.js & library auth (Auth.js/NextAuth) | **Open** | Versi final dan kompatibilitas React 19/**TypeScript 7** serta **Node LTS (Node 20 di CI — gerbang Slice 0)**, adapter/strategi session (apakah tabel `sessions` existing dipakai), serta persetujuan dependency. Bila tidak cocok, keputusan versi dikembalikan ke pengguna. **Ini bukan OD-001 di `adr-status.md`** (pinning Fastify/Zod/Drizzle yang sudah Approved). |
 | **OD-002 (migrasi)** | Detail hosting & runtime | **Open** | Konfigurasi Vercel (region/env/secrets/domain default), strategi pool Neon untuk serverless, dan apakah lingkup OD-002 existing (frontend + API di Vercel) tetap dipertahankan tanpa perubahan keputusan. **Ini bukan pengajuan ulang OD-002 yang sudah Approved 2026-11-26**; constraint Fastify long-running masih tercatat di [`od-002-deploy-constraint.md`](../od-002-deploy-constraint.md). |
-| **OD-TEST (label usulan)** | Strategi test pasca-migrasi | **Open** | `node:test` existing vs runner baru (mis. Vitest), cara menguji Route Handlers/Server Actions, apakah mock `pg.Pool` tetap dipakai, ruang lingkup DB integration test, dan kebutuhan e2e browser. Tidak ada runner baru dipasang sebelum persetujuan. |
+| **OD-TEST** | Strategi test pasca-migrasi | **Decided — 2026-11-27** | `node:test` + `tsx` dipertahankan; **tidak ada runner baru**. Route Handler diuji sebagai fungsi `Request → Response`; mock `pg.Pool` dan DB integration test tetap dipakai. |
 
 ## Verifikasi saat implementasi
 
@@ -138,14 +158,15 @@ Setiap slice memerlukan izin implementasi tersendiri, satu slice kecil, verifika
 - Aturan versioning learning/handbook, partial unique index, satu versi `Approved`, dan `Mastered` manual lulus test dengan DB nyata.
 - Cookie `HttpOnly`, `SameSite=Lax`, `Secure` env-aware; `state`/`nonce`, Origin/Referer, `Content-Type: application/json`, dan `X-CSRF-Token` tetap diverifikasi.
 - Format tanggal `YYYY-MM-DD` dan timestamp lokal Asia/Jakarta tidak berubah (ADR-009/OD-008).
-- Seluruh test yang relevan lulus (frontend murni, modul, integrasi DB) dengan harness yang sudah disesuaikan; tidak ada test yang dilewati tanpa alasan tercatat.
+- Seluruh test yang relevan lulus (frontend murni, modul, integrasi DB) dengan harness yang sudah disesuaikan; Route Handler diuji sebagai fungsi `Request → Response` memakai `node:test` + `tsx`, tanpa runner baru; tidak ada test yang dilewati tanpa alasan tercatat.
 - Tidak ada secret/token/cookie value di log, diff, atau response; dependency, lockfile, dan konfigurasi baru hanya berubah setelah izin eksplisit.
 
 ## Riwayat perubahan
 
 - 2026-11-27: ADR dibuat dengan status `Proposed` setelah pengguna memutuskan migrasi ke Next.js App Router/Vercel. Tag anotasi `pre-nextjs-migration` dibuat di HEAD `main` `d40df91e...` dan branch `feat/nextjs-migration` dibuat dari commit yang sama. Inventaris disusun dari kode aktual; tidak ada source code, dependency, konfigurasi, database, atau deploy yang diubah. Status ADR lama tidak disentuh.
 - 2026-11-27 (M0b): pengguna menyetujui ADR-010 menjadi **Accepted** sebagai keputusan arsitektur. Catatan mengikat: `Accepted` **TIDAK** memberi izin implementasi slice, instalasi dependency, push, atau deploy; tiap slice tetap butuh izin sendiri. Status turunan diselaraskan: Next.js App Router/Route Handlers, Drizzle, Zod, target Vercel, Google Login/single-owner, dan Neon menjadi Accepted; library auth, detail hosting/runtime, serta OD-001/OD-002/OD-TEST (migrasi) tetap `Proposed`/**Open**. Di `docs/adr-status.md`, ADR-002 dan ADR-004 ditandai `Accepted — superseded in part by ADR-010`; ADR-001, ADR-003, ADR-005–ADR-009 tidak diubah. Tidak ada slice atau rencana baru yang ditambahkan.
+- 2026-11-27 (M0c): pengguna menolak Usulan A (refactor logika di Fastify sebelum migrasi) dan menyetujui **Usulan B**: Slice 0 memuat shell SPA `src/App.tsx` sebagai Client Component di dalam Next.js, Slice 5 memecah shell menjadi route App Router dengan deep link `?item=` dipertahankan. Mitigasi penolakan A: tiap slice mengekstrak logika ke `lib/` dalam commit terpisah sebelum menulis handler. **OD-TEST Decided**: `node:test` + `tsx`, tanpa runner baru, Route Handler diuji sebagai fungsi `Request → Response`. Gerbang Slice 0 ditambahkan: kompatibilitas Next.js dengan TypeScript 7 dan Node LTS (Node 20 di CI) wajib diverifikasi; bila tidak cocok, versi dikembalikan ke pengguna. Secret scan seluruh history bersih (tanpa `.env*` selain `.env.example`, tanpa pola secret yang dicari, `.env.example` hanya placeholder); remote origin diverifikasi, lalu branch dan tag checkpoint di-push. Repo tetap PUBLIC; tidak ada perubahan kode, dependency, konfigurasi, CI, atau deploy.
 
 ## Rollback
 
-Kembalikan aplikasi ke checkpoint `pre-nextjs-migration` (kode, konfigurasi, dan build terakhir yang dikenal baik) dan hentikan jalur Next.js yang sedang dicoba. Gunakan branch/restore dari tag sesuai mekanisme git yang disetujui; **jangan** melakukan `push`, `reset`, `rebase`, atau perubahan pada `main` tanpa izin. Database tidak diubah oleh ADR ini; bila slice implementasi kemudian mengubah data, lakukan pemulihan hanya dari dump terverifikasi sesuai ADR-008, dengan persetujuan eksplisit untuk operasi destruktif.
+Kembalikan aplikasi ke checkpoint `pre-nextjs-migration` (kode, konfigurasi, dan build terakhir yang dikenal baik) dan hentikan jalur Next.js yang sedang dicoba. Gunakan branch/restore dari tag sesuai mekanisme git yang disetujui; push checkpoint pada M0c sudah dilakukan dengan izin eksplisit. **Jangan** melakukan `push` baru, force push, `reset`, `rebase`, merge, atau perubahan pada `main` tanpa izin. Database tidak diubah oleh ADR ini; bila slice implementasi kemudian mengubah data, lakukan pemulihan hanya dari dump terverifikasi sesuai ADR-008, dengan persetujuan eksplisit untuk operasi destruktif.
