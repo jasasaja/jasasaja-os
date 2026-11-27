@@ -4,6 +4,8 @@ import { isAppError, loggerOptions } from "./modules/shared/core/index.ts";
 import { authGuard } from "./modules/shared/core/auth/guard.ts";
 import { registerAuthRoutes } from "./modules/shared/core/auth/routes.ts";
 import { registerLearningRoutes } from "./modules/learning/routes.ts";
+import { registerHandbookRoutes } from "./modules/handbook/routes.ts";
+import { registerProjectRoutes } from "./modules/projects/routes.ts";
 
 function formatZodDetails(error: ZodError) {
   return error.issues.map((issue) => ({
@@ -21,6 +23,8 @@ export function buildApp(): FastifyInstance {
   app.addHook("preHandler", authGuard);
   registerAuthRoutes(app);
   registerLearningRoutes(app);
+  registerHandbookRoutes(app);
+  registerProjectRoutes(app);
 
   app.get("/api/health", async () => ({
     data: {
@@ -44,6 +48,23 @@ export function buildApp(): FastifyInstance {
           code: error.code,
           message: error.message,
           ...(error.details ? { details: error.details } : {}),
+        },
+      });
+      return;
+    }
+
+    // Fastify menolak media type yang tidak dikenal sebelum preHandler guard
+    // sempat mengembalikan 400. Samakan dengan kontrak error VALIDATION_ERROR.
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "code" in error &&
+      (error as { code?: unknown }).code === "FST_ERR_CTP_INVALID_MEDIA_TYPE"
+    ) {
+      reply.status(400).send({
+        error: {
+          code: "VALIDATION_ERROR",
+          message: "Content-Type harus application/json.",
         },
       });
       return;

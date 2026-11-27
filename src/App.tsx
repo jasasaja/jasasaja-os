@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AppShell } from './components/layout';
 import { DashboardView } from './components/views/DashboardView';
-import { ModuleScaffoldView } from './components/views/ModuleScaffoldView';
+import { HandbookView } from './components/views/HandbookView';
+import { LearningView } from './components/views/LearningView';
 import { NotFoundView } from './components/views/NotFoundView';
+import { ProjectsView } from './components/views/ProjectsView';
 import { SettingsView } from './components/views/SettingsView';
 import type { RouteId, UserProfile, WorkspaceSettings } from './types/foundation';
 import {
@@ -20,9 +22,15 @@ import {
   type StorageWriteResult,
 } from './utils/settings';
 
+// Querystring ikut disimpan agar deep-link handbook (?item=<id>) tetap terbaca
+// setelah navigasi SPA maupun popstate.
+function getLocationUrl(): string {
+  return `${window.location.pathname}${window.location.search}`;
+}
+
 export default function App() {
   const [settings, setSettings] = useState<WorkspaceSettings>(() => loadWorkspaceSettings());
-  const [locationPath, setLocationPath] = useState<string>(() => window.location.pathname);
+  const [locationUrl, setLocationUrl] = useState<string>(getLocationUrl);
   const [sessionNotice, setSessionNotice] = useState<string | null>(null);
 
   useEffect(() => {
@@ -36,7 +44,7 @@ export default function App() {
 
   useEffect(() => {
     const handlePopState = () => {
-      setLocationPath(window.location.pathname);
+      setLocationUrl(getLocationUrl());
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
@@ -61,8 +69,8 @@ export default function App() {
   );
 
   const resolution = useMemo(
-    () => resolveRoute(locationPath, settings.defaultRoute),
-    [locationPath, settings.defaultRoute],
+    () => resolveRoute(locationUrl, settings.defaultRoute),
+    [locationUrl, settings.defaultRoute],
   );
 
   const currentRoute: RouteId | null =
@@ -73,7 +81,16 @@ export default function App() {
     if (window.location.pathname !== target.path) {
       window.history.pushState({ routeId }, '', target.path);
     }
-    setLocationPath(target.path);
+    setLocationUrl(target.path);
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, []);
+
+  const handleOpenHandbookItem = useCallback((itemId: string) => {
+    const target = `/handbook?item=${encodeURIComponent(itemId)}`;
+    if (getLocationUrl() !== target) {
+      window.history.pushState({ routeId: 'handbook', itemId }, '', target);
+    }
+    setLocationUrl(target);
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, []);
 
@@ -81,7 +98,7 @@ export default function App() {
     if (window.location.pathname !== '/') {
       window.history.pushState({ root: true }, '', '/');
     }
-    setLocationPath('/');
+    setLocationUrl('/');
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, []);
 
@@ -142,13 +159,17 @@ export default function App() {
       {currentRoute === 'dashboard' && (
         <DashboardView breadcrumbs={breadcrumbs} onNavigate={handleNavigate} />
       )}
-      {(currentRoute === 'learning' ||
-        currentRoute === 'handbook' ||
-        currentRoute === 'projects') && (
-        <ModuleScaffoldView
-          routeId={currentRoute}
+      {currentRoute === 'learning' && (
+        <LearningView breadcrumbs={breadcrumbs} onNavigate={handleNavigate} />
+      )}
+      {currentRoute === 'handbook' && (
+        <HandbookView breadcrumbs={breadcrumbs} onNavigate={handleNavigate} />
+      )}
+      {currentRoute === 'projects' && (
+        <ProjectsView
           breadcrumbs={breadcrumbs}
           onNavigate={handleNavigate}
+          onOpenHandbookItem={handleOpenHandbookItem}
         />
       )}
       {currentRoute === 'settings' && (

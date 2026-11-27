@@ -1,7 +1,7 @@
 # Backlog Phase 1 — Learning Center (Draft)
 
-- **Status:** Draft perencanaan (P1-Planning)
-- **Tanggal:** 2026-11-26
+- **Status:** P1.1-P1.6 implemented/verified locally on 2026-11-26 (P1.1-P1.2 committed locally; P1.3-P1.6 uncommitted at review time). Exit review: [phase-1-exit-review-2026-11-26.md](./phase-1-exit-review-2026-11-26.md). Known gaps diterima pengguna 2026-11-27 melalui [Gate Phase 1–3](./phase-1-3-acceptance-gate-2026-11-27.md); bukan klaim CI/deploy/browser sign-off.
+- **Tanggal:** 2026-11-26 (updated after P1.6)
 - **Prasyarat:** Phase 0 sign-off pengguna tercatat 2026-11-26 (`docs/phase-0-exit-review-2026-11-26.md` §10). Batasan/risiko yang ditunda tetap diketahui.
 - **Fokus Phase 1:** Satu learning path dapat dipelajari sampai evaluasi dan progress tersimpan (README/roadmap exit criteria).
 - **Batasan:** Satu slice kecil pada satu waktu; verifikasi sebelum lanjut; tidak ada commit/push/deploy tanpa instruksi eksplisit; tidak ada dependency baru tanpa persetujuan; tidak ada fitur di luar scope MVP.
@@ -17,7 +17,7 @@
 
 ### P1.1 — Learning API read foundation (vertical slice terkecil)
 - **Goal:** Owner terautentikasi dapat membaca daftar learning path dari API.
-- **Status:** Not Started
+- **Status:** Done (local, committed `2220655`, 2026-11-26)
 - **Scope:**
   - `GET /api/learning/paths` — list paths (paginated sederhana atau semua untuk MVP awal), response envelope `{ data: [...] }`.
   - `GET /api/learning/paths/:id` — detail path + lessons ringkas.
@@ -34,7 +34,7 @@
 
 ### P1.2 — Learning path create/update (owner authoring dasar)
 - **Goal:** Owner dapat membuat dan memperbarui learning path.
-- **Status:** Not Started
+- **Status:** Done (local, committed `afca15f`, 2026-11-26)
 - **Scope:**
   - `POST /api/learning/paths` — create.
   - `PATCH /api/learning/paths/:id` — update.
@@ -46,7 +46,7 @@
 
 ### P1.3 — Lesson CRUD + versioning dasar (B1)
 - **Goal:** Owner dapat membuat lesson dalam path dan menyimpan versi konten (A1 JSON block, B1 append-only).
-- **Status:** Not Started
+- **Status:** Done (local, uncommitted, verified 2026-11-26)
 - **Scope:**
   - `POST /api/learning/paths/:pathId/lessons` create lesson + initial version (Draft).
   - `GET /api/learning/lessons/:id` detail lesson + current draft/approved version sesuai aturan.
@@ -59,7 +59,7 @@
 
 ### P1.4 — Lesson progress & mastery manual (D1)
 - **Goal:** Owner dapat menandai progres lesson dan status Mastered secara manual.
-- **Status:** Not Started
+- **Status:** Done (local, uncommitted, verified 2026-11-26)
 - **Scope:**
   - `GET /api/learning/lessons/:id/progress`
   - `PUT/PATCH /api/learning/lessons/:id/progress` dengan status `Not Started|In Progress|Completed|Mastered`.
@@ -71,7 +71,7 @@
 
 ### P1.5 — Learning Center UI integration (MVP minimal)
 - **Goal:** Route `/learning` menampilkan data nyata dari API untuk satu learning path.
-- **Status:** Not Started
+- **Status:** Done (local, uncommitted, command-verified 2026-11-26; browser manual skipped)
 - **Scope:**
   - Ganti scaffold Learning Center dengan tampilan list/detail minimal.
   - Loading/empty/error/success states.
@@ -83,7 +83,7 @@
 
 ### P1.6 — Learning exit criteria review
 - **Goal:** Buktikan exit criteria Phase 1: satu learning path dapat dipelajari sampai evaluasi dan progress tersimpan.
-- **Status:** Not Started
+- **Status:** Done (local, 2026-11-26) — see [phase-1-exit-review-2026-11-26.md](./phase-1-exit-review-2026-11-26.md)
 - **Scope:** evidence end-to-end pada dev lokal, laporan, known gaps.
 - **Dependencies:** P1.1-P1.5.
 - **Verification:** command checks + manual flow evidence.

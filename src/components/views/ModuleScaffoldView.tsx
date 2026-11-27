@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, BookOpen, FolderKanban, GraduationCap } from 'lucide-react';
+import { ArrowLeft, BookOpen, FolderKanban } from 'lucide-react';
 import { PageHeader } from '../layout';
 import {
   Badge,
@@ -18,13 +18,13 @@ import {
 import type { BreadcrumbItem, RouteId } from '../../types/foundation';
 
 export interface ModuleScaffoldViewProps {
-  routeId: 'learning' | 'handbook' | 'projects';
+  routeId: 'handbook' | 'projects';
   breadcrumbs: BreadcrumbItem[];
   onNavigate: (routeId: RouteId) => void;
 }
 
 const MODULE_META: Record<
-  'learning' | 'handbook' | 'projects',
+  'handbook' | 'projects',
   {
     title: string;
     description: string;
@@ -34,20 +34,6 @@ const MODULE_META: Record<
     emptyDescription: string;
   }
 > = {
-  learning: {
-    title: 'Learning',
-    description:
-      'Fondasi untuk jalur belajar terstruktur, catatan bacaan teknis, dan antrean pengulangan materi.',
-    Icon: GraduationCap,
-    plannedCapabilities: [
-      'Organisasi jalur kurikulum dengan ringkasan progres',
-      'Catatan belajar Markdown yang terhubung ke referensi handbook',
-      'Antrean pengulangan berjadwal dan pelacakan penguasaan konsep',
-    ],
-    emptyTitle: 'Modul Learning Center belum diaktifkan',
-    emptyDescription:
-      'Rute ini sudah terhubung ke application shell dan navigasi responsif. Fitur domain akan diimplementasikan pada fase berikutnya.',
-  },
   handbook: {
     title: 'Handbook',
     description:

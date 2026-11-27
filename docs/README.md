@@ -1,6 +1,6 @@
 # Dokumentasi Perencanaan JASASAJA Personal OS
 
-Direktori ini berisi dokumentasi perencanaan Phase 0.1 sampai 0.3. Dokumen baseline v1.1 telah **Approved pada 2026-11-24**; status dokumen perencanaan di bawah mengikuti tabel masing-masing dan belum mengubah kode, dependency, konfigurasi, atau scope MVP. `README.md` di root memuat panduan setup frontend aktual yang diperbarui pada P0.2-02.
+Direktori ini berisi dokumentasi perencanaan dan review Phase 0 sampai Phase 3. Dokumen baseline v1.1 telah **Approved pada 2026-11-24**; status dokumen perencanaan di bawah mengikuti tabel masing-masing dan belum mengubah kode, dependency, konfigurasi, atau scope MVP. `README.md` di root memuat panduan setup frontend aktual yang diperbarui pada P0.2-02.
 
 ## Daftar dokumen
 
@@ -16,7 +16,24 @@ Direktori ini berisi dokumentasi perencanaan Phase 0.1 sampai 0.3. Dokumen basel
 | [adr/ADR-007-content-versioning.md](./adr/ADR-007-content-versioning.md) | Versioning konten | Proposed (OD-005) |
 | [adr/ADR-008-backup-and-recovery.md](./adr/ADR-008-backup-and-recovery.md) | Backup dan recovery | Proposed (OD-006) |
 | [adr/ADR-009-default-timezone.md](./adr/ADR-009-default-timezone.md) | Timezone default | Proposed (OD-008) |
-| [phase-0-backlog.md](./phase-0-backlog.md) | Backlog P0.1–P0.5 | P0.1-01/02/03, P0.2-01/02/03, dan P0.3-02 Done; backlog keseluruhan Draft |
+| [phase-0-backlog.md](./phase-0-backlog.md) | Backlog P0.1–P0.5 | Signed off 2026-11-26 (lihat exit review) |
+| [phase-1-backlog.md](./phase-1-backlog.md) | Backlog P1.1–P1.6 Learning Center | P1.1-P1.6 implemented/verified locally; known gaps accepted by user 2026-11-27 |
+| [phase-1-exit-review-2026-11-26.md](./phase-1-exit-review-2026-11-26.md) | Exit review Phase 1 | Local PASS with known gaps; accepted by user 2026-11-27 |
+| [phase-2-backlog.md](./phase-2-backlog.md) | Backlog P2.1–P2.6 Engineering Handbook | P2.1–P2.6 implemented/verified locally; known gaps accepted by user 2026-11-27 |
+| [phase-2-exit-review-2026-11-26.md](./phase-2-exit-review-2026-11-26.md) | Exit review Phase 2 | Local PASS with known gaps; accepted by user 2026-11-27 |
+| [phase-3-backlog.md](./phase-3-backlog.md) | Backlog P3.1–P3.6 Project Workspace & Handbook | P3.1–P3.6 implemented/verified locally; P3.6 done; known gaps accepted by user 2026-11-27; learning route skipped |
+| [phase-3-exit-review-2026-11-27.md](./phase-3-exit-review-2026-11-27.md) | Exit review Phase 3 | Local PASS with known gaps; accepted by user 2026-11-27 |
+| [phase-1-3-acceptance-gate-2026-11-27.md](./phase-1-3-acceptance-gate-2026-11-27.md) | Gate penerimaan known gaps Phase 1–3 | Accepted by user 2026-11-27; commit/push manual oleh pengguna |
+| [p3.1-implementation-report-2026-11-27.md](./p3.1-implementation-report-2026-11-27.md) | Laporan slice P3.1 | Local PASS with known gaps |
+| [p3.2-implementation-report-2026-11-27.md](./p3.2-implementation-report-2026-11-27.md) | Laporan slice P3.2 | Local PASS with known gaps |
+| [p3.3-implementation-report-2026-11-27.md](./p3.3-implementation-report-2026-11-27.md) | Laporan slice P3.3 | Local PASS with known gaps |
+| [p3.4-implementation-report-2026-11-27.md](./p3.4-implementation-report-2026-11-27.md) | Laporan slice P3.4 | Local PASS with known gaps |
+| [p3.5-implementation-report-2026-11-27.md](./p3.5-implementation-report-2026-11-27.md) | Laporan slice P3.5 | Local PASS; browser manual pending |
+| [p2.1-implementation-report-2026-11-26.md](./p2.1-implementation-report-2026-11-26.md) | Laporan slice P2.1 | Local PASS with known gaps |
+| [p2.2-implementation-report-2026-11-26.md](./p2.2-implementation-report-2026-11-26.md) | Laporan slice P2.2 | Local PASS with known gaps |
+| [p2.3-implementation-report-2026-11-26.md](./p2.3-implementation-report-2026-11-26.md) | Laporan slice P2.3 | Local PASS with known gaps |
+| [p2.4-implementation-report-2026-11-26.md](./p2.4-implementation-report-2026-11-26.md) | Laporan slice P2.4 | Local PASS with known gaps |
+| [p2.5-implementation-report-2026-11-26.md](./p2.5-implementation-report-2026-11-26.md) | Laporan slice P2.5 | Local PASS with known gaps |
 | [adr-status.md](./adr-status.md) | Lembar finalisasi ADR dan decision register | P0.1-02 selesai — register keputusan & OD |
 | [provider-verification.md](./provider-verification.md) | Verifikasi provider PostgreSQL/hosting (desk research) | Neon Free Approved; tidak ada aktivasi |
 | [task-template.md](./task-template.md) | Template task dan checklist Definition of Done | Final — P0.1-03; diperluas P0.2-03 |
