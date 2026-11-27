@@ -1,0 +1,10 @@
+{
+  "permission": {
+    "bash": {
+      "rm *": "deny",
+      "git push --force": "deny"
+    },
+    "edit": "allow",
+    "webfetch": "allow"
+  }
+}

@@ -67,6 +67,8 @@ interface AuthMeData {
 interface HandbookViewProps {
   breadcrumbs: BreadcrumbItem[];
   onNavigate: (routeId: RouteId) => void;
+  deepLinkItemId: string | null;
+  onOpenHandbookItem: (itemId: string) => void;
 }
 
 type ViewState<T> =
@@ -122,21 +124,8 @@ function buildItemsPath(query: string, categoryId: string): string {
   return `/api/handbook/items${search ? `?${search}` : ''}`;
 }
 
-// P3.5: deep-link `/handbook?item=<id>` langsung membuka detail item.
-function readDeepLinkItemId(): string | null {
-  const value = new URLSearchParams(window.location.search).get('item');
-  return value && value.trim() ? value : null;
-}
-
-function writeDeepLinkItemId(id: string | null): void {
-  const url = new URL(window.location.href);
-  if (id) {
-    url.searchParams.set('item', id);
-  } else {
-    url.searchParams.delete('item');
-  }
-  window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}`);
-}
+// P3.5/P4.3: deep-link `/handbook?item=<id>` dikontrol oleh App agar navigasi nav
+// yang sama membersihkan seleksi secara konsisten.
 
 function readBlocks(content: Record<string, unknown>, key: SectionKey): HandbookBlock[] {
   const value = content[key];
@@ -216,14 +205,14 @@ function renderBlock(block: HandbookBlock, index: number) {
   );
 }
 
-export function HandbookView({ breadcrumbs, onNavigate }: HandbookViewProps) {
+export function HandbookView({ breadcrumbs, onNavigate, deepLinkItemId, onOpenHandbookItem }: HandbookViewProps) {
   const [auth, setAuth] = useState<ViewState<AuthMeData>>({ status: 'loading' });
   const [categories, setCategories] = useState<ViewState<HandbookCategory[]>>({ status: 'loading' });
   const [items, setItems] = useState<ViewState<HandbookItemSummary[]>>({ status: 'loading' });
   const [searchInput, setSearchInput] = useState('');
   const [query, setQuery] = useState('');
   const [categoryId, setCategoryId] = useState('');
-  const [selectedItemId, setSelectedItemId] = useState<string | null>(() => readDeepLinkItemId());
+  const selectedItemId = deepLinkItemId;
   const [detail, setDetail] = useState<ViewState<HandbookItemDetail> | null>(null);
 
   const loadAuth = useCallback(async () => {
@@ -292,25 +281,20 @@ export function HandbookView({ breadcrumbs, onNavigate }: HandbookViewProps) {
   }, [searchInput]);
 
   useEffect(() => {
-    if (selectedItemId) void loadDetail(selectedItemId);
+    if (selectedItemId) {
+      void loadDetail(selectedItemId);
+      return;
+    }
+    setDetail(null);
   }, [selectedItemId, loadDetail]);
 
-  useEffect(() => {
-    const handlePopState = () => setSelectedItemId(readDeepLinkItemId());
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-
   const handleSelectItem = (id: string) => {
-    writeDeepLinkItemId(id);
-    setSelectedItemId(id);
     setDetail({ status: 'loading' });
+    onOpenHandbookItem(id);
   };
 
   const handleBackToList = () => {
-    writeDeepLinkItemId(null);
-    setSelectedItemId(null);
-    setDetail(null);
+    onNavigate('handbook');
   };
 
   const handleClearFilters = () => {

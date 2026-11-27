@@ -76,9 +76,15 @@ export default function App() {
   const currentRoute: RouteId | null =
     resolution.kind === 'route' ? resolution.routeId : null;
 
+  const handbookItemId = useMemo(() => {
+    if (currentRoute !== 'handbook') return null;
+    const value = new URLSearchParams(locationUrl.split('?')[1] ?? '').get('item');
+    return value && value.trim() ? value : null;
+  }, [currentRoute, locationUrl]);
+
   const handleNavigate = useCallback((routeId: RouteId) => {
     const target = getNavItem(routeId);
-    if (window.location.pathname !== target.path) {
+    if (getLocationUrl() !== target.path) {
       window.history.pushState({ routeId }, '', target.path);
     }
     setLocationUrl(target.path);
@@ -163,7 +169,12 @@ export default function App() {
         <LearningView breadcrumbs={breadcrumbs} onNavigate={handleNavigate} />
       )}
       {currentRoute === 'handbook' && (
-        <HandbookView breadcrumbs={breadcrumbs} onNavigate={handleNavigate} />
+        <HandbookView
+          breadcrumbs={breadcrumbs}
+          onNavigate={handleNavigate}
+          deepLinkItemId={handbookItemId}
+          onOpenHandbookItem={handleOpenHandbookItem}
+        />
       )}
       {currentRoute === 'projects' && (
         <ProjectsView

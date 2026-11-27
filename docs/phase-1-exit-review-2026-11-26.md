@@ -4,6 +4,7 @@
 - **Fase:** Phase 1 — Learning Center
 - **Sifat:** Review bukti lokal; bukan sign-off pengguna otomatis; bukan klaim deploy/CI remote hijau.
 - **Penerimaan pengguna:** Known gaps diterima 2026-11-27 melalui [Gate Phase 1–3](./phase-1-3-acceptance-gate-2026-11-27.md); status bukti lokal tidak berubah.
+- **Catatan P4.1 (2026-11-27):** "[Sifat]" di atas adalah kondisi saat review. CI remote untuk commit yang memuat Phase 1–3 (`7d46927`) kemudian diverifikasi `success` di [P4.1](./p4.1-implementation-report-2026-11-27.md); bukti lokal pada review ini tidak diubah.
 - **Kriteria exit Phase 1 (roadmap):** Satu learning path dapat dipelajari sampai evaluasi dan progress tersimpan.
 
 ## 1. Ringkasan

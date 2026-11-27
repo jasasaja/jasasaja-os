@@ -1,6 +1,7 @@
 # Backlog Phase 1 — Learning Center (Draft)
 
 - **Status:** P1.1-P1.6 implemented/verified locally on 2026-11-26 (P1.1-P1.2 committed locally; P1.3-P1.6 uncommitted at review time). Exit review: [phase-1-exit-review-2026-11-26.md](./phase-1-exit-review-2026-11-26.md). Known gaps diterima pengguna 2026-11-27 melalui [Gate Phase 1–3](./phase-1-3-acceptance-gate-2026-11-27.md); bukan klaim CI/deploy/browser sign-off.
+- **Catatan P4.1 (2026-11-27):** Repo/remote sinkron di `7d46927`, working tree bersih saat audit, CI run #2 `45956782960` `success` ([bukti](./p4.1-implementation-report-2026-11-27.md)). Melengkapi status historis di atas, bukan menggantinya.
 - **Tanggal:** 2026-11-26 (updated after P1.6)
 - **Prasyarat:** Phase 0 sign-off pengguna tercatat 2026-11-26 (`docs/phase-0-exit-review-2026-11-26.md` §10). Batasan/risiko yang ditunda tetap diketahui.
 - **Fokus Phase 1:** Satu learning path dapat dipelajari sampai evaluasi dan progress tersimpan (README/roadmap exit criteria).

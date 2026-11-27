@@ -4,6 +4,7 @@
 - **Sifat:** Catatan persetujuan tertulis pengguna dalam sesi ini. Bukan commit/push, bukan klaim CI remote hijau, bukan deploy, dan bukan penghapusan known gaps.
 - **Cakupan:** Exit review Phase 1, Phase 2, dan Phase 3.
 - **Status gate:** `ACCEPTED WITH KNOWN GAPS` oleh pengguna pada 2026-11-27.
+- **Catatan pembaruan (P4.1, 2026-11-27):** Butir "working tree masih uncommitted" dan "CI remote belum diverifikasi" di §3/§4 menggambarkan kondisi **saat gate dibuat** dan sengaja tidak dihapus. Keduanya telah diverifikasi ulang pada [P4.1](./p4.1-implementation-report-2026-11-27.md): `HEAD = origin/main = 7d46927`, working tree bersih pada saat audit, dan GitHub Actions run #2 `45956782960` berstatus `success` untuk commit tersebut. Known gaps lain tetap berlaku.
 
 ## 1. Pernyataan pengguna
 

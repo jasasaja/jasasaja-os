@@ -15,23 +15,7 @@ function formatZodDetails(error: ZodError) {
   }));
 }
 
-export function buildApp(): FastifyInstance {
-  const app = Fastify({
-    logger: loggerOptions,
-  });
-
-  app.addHook("preHandler", authGuard);
-  registerAuthRoutes(app);
-  registerLearningRoutes(app);
-  registerHandbookRoutes(app);
-  registerProjectRoutes(app);
-
-  app.get("/api/health", async () => ({
-    data: {
-      status: "ok" as const,
-    },
-  }));
-
+export function registerApiErrorHandlers(app: FastifyInstance): void {
   app.setNotFoundHandler((_request, reply) => {
     reply.status(404).send({
       error: {
@@ -105,6 +89,26 @@ export function buildApp(): FastifyInstance {
       },
     });
   });
+}
+
+export function buildApp(): FastifyInstance {
+  const app = Fastify({
+    logger: loggerOptions,
+  });
+
+  app.addHook("preHandler", authGuard);
+  registerAuthRoutes(app);
+  registerLearningRoutes(app);
+  registerHandbookRoutes(app);
+  registerProjectRoutes(app);
+
+  app.get("/api/health", async () => ({
+    data: {
+      status: "ok" as const,
+    },
+  }));
+
+  registerApiErrorHandlers(app);
 
   return app;
 }

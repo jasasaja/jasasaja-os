@@ -99,3 +99,13 @@ Contoh: `jasasaja_os_dev_20261126T074500Z.dump`
 
 ## Bukti Restore Drill
 Catat setiap drill di laporan step/operasional: tanggal, file dump, checksum OK/tidak, DB scratch, hasil count/FK/smoke check, dan cleanup. Jangan sertakan secret.
+
+### Drill terakhir (refresh P4.5 — 2026-11-27)
+
+- **Tanggal:** 2026-11-27
+- **Dump:** `backups/jasasaja_os_dev_20261127T083544Z.dump`
+- **Checksum:** `sha256sum -c ...sha256` → OK
+- **Scratch DB:** `jasasaja_os_restore_drill_p45` (dibuat, dipakai, di-drop; tidak ada di `pg_database` setelah cleanup)
+- **Restore:** `pg_restore --no-owner --no-privileges` → OK
+- **Verifikasi:** `SELECT count(*)` untuk 11 tabel aplikasi source vs scratch = **MATCH**; 8 FK + 11 PK pada `public`/`drizzle`; partial unique indexes `handbook_item_versions_one_approved_uidx` dan `lesson_versions_one_approved_uidx` hadir.
+- **Catatan:** `pg_dump`/`psql`/`pg_restore` dijalankan di container `jasasaja-os-dev-postgres`; DB dev existing tidak dimodifikasi. Detail: [p4.5-implementation-report-2026-11-27.md](./p4.5-implementation-report-2026-11-27.md).

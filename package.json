@@ -12,7 +12,7 @@
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit && tsc --noEmit -p server/tsconfig.json",
     "typecheck": "tsc --noEmit && tsc --noEmit -p server/tsconfig.json",
-    "test": "tsx --test src/**/*.test.ts",
+    "test": "tsx --test $(find src server/src -name '*.test.ts' -type f | sort)",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "tsx --env-file-if-exists=.env server/src/db/seed/seed.ts"

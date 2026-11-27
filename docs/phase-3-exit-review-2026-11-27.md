@@ -4,6 +4,7 @@
 - **Fase:** Phase 3 — Project Workspace & Handbook Integration
 - **Sifat:** Review bukti lokal; bukan sign-off pengguna otomatis; bukan klaim CI remote hijau atau deploy.
 - **Penerimaan pengguna:** Known gaps diterima 2026-11-27 melalui [Gate Phase 1–3](./phase-1-3-acceptance-gate-2026-11-27.md); status bukti lokal tidak berubah.
+- **Catatan P4.1 (2026-11-27):** "[Sifat]" di atas adalah kondisi saat review. CI remote untuk commit yang memuat Phase 1–3 (`7d46927`) kemudian diverifikasi `success` di [P4.1](./p4.1-implementation-report-2026-11-27.md); bukti lokal pada review ini tidak diubah.
 - **Kriteria exit Phase 3 (README §Rencana Pengembangan / roadmap):** Satu proyek dapat dijalankan dengan stages, milestones, tasks, dan referensi handbook.
 - **Instruksi scope pengguna:** Route learning dilewati. Tidak ada perubahan pada `LearningView`, cabang `learning` di `src/App.tsx`, atau endpoint `/api/learning/**` dalam Phase 3.
 

@@ -1,6 +1,7 @@
 # Backlog Phase 2 — Engineering Handbook (Draft)
 
 - **Status:** P2.1–P2.6 implemented/verified locally on 2026-11-26; Phase 2 exit review **local PASS with known gaps** ([phase-2-exit-review-2026-11-26.md](./phase-2-exit-review-2026-11-26.md)). Dokumen ini tetap draft perencanaan: known gaps Phase 1/2 diterima pengguna 2026-11-27 melalui [Gate Phase 1–3](./phase-1-3-acceptance-gate-2026-11-27.md), commit/push dilakukan manual oleh pengguna, dan gate ini bukan izin deploy atau perubahan scope/dependency. Laporan: [p2.1](./p2.1-implementation-report-2026-11-26.md), [p2.2](./p2.2-implementation-report-2026-11-26.md), [p2.3](./p2.3-implementation-report-2026-11-26.md), [p2.4](./p2.4-implementation-report-2026-11-26.md), [p2.5](./p2.5-implementation-report-2026-11-26.md).
+- **Catatan P4.1 (2026-11-27):** Repo/remote sinkron di `7d46927`, working tree bersih saat audit, CI run #2 `45956782960` `success` ([bukti](./p4.1-implementation-report-2026-11-27.md)). Melengkapi status historis di atas, bukan menggantinya.
 - **Tanggal:** 2026-11-26
 - **Prasyarat:** Exit criteria Phase 1 tercapai secara lokal pada API + UI yang command-verified ([phase-1-exit-review-2026-11-26.md](./phase-1-exit-review-2026-11-26.md)), dengan known gaps yang masih terbuka. Phase 1 belum dinyatakan selesai operasional oleh pengguna; Phase 2 hanya dipetakan di dokumen ini.
 - **Fokus Phase 2:** Satu tahap engineering memiliki paket standar lengkap dan dapat ditemukan/digunakan (README §Rencana Pengembangan; exit criteria roadmap).
