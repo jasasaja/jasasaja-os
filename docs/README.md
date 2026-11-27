@@ -1,6 +1,6 @@
 # Dokumentasi Perencanaan JASASAJA Personal OS
 
-Direktori ini berisi dokumentasi perencanaan dan review Phase 0 sampai Phase 4. Dokumen baseline v1.1 telah **Approved pada 2026-11-24**; status dokumen perencanaan di bawah mengikuti tabel masing-masing dan belum mengubah kode, dependency, konfigurasi, atau scope MVP. `README.md` di root memuat panduan setup frontend aktual yang diperbarui pada P0.2-02.
+Direktori ini berisi dokumentasi perencanaan dan review Phase 0 sampai Phase 5. Dokumen baseline v1.1 telah **Approved pada 2026-11-24**; status dokumen perencanaan di bawah mengikuti tabel masing-masing dan belum mengubah kode, dependency, konfigurasi, atau scope MVP. `README.md` di root memuat panduan setup frontend aktual yang diperbarui pada P0.2-02.
 
 ## Daftar dokumen
 
@@ -24,15 +24,17 @@ Direktori ini berisi dokumentasi perencanaan dan review Phase 0 sampai Phase 4. 
 | [phase-3-backlog.md](./phase-3-backlog.md) | Backlog P3.1–P3.6 Project Workspace & Handbook | P3.1–P3.6 implemented/verified locally; P3.6 done; known gaps accepted by user 2026-11-27; learning route skipped |
 | [phase-3-exit-review-2026-11-27.md](./phase-3-exit-review-2026-11-27.md) | Exit review Phase 3 | Local PASS with known gaps; accepted by user 2026-11-27 |
 | [phase-1-3-acceptance-gate-2026-11-27.md](./phase-1-3-acceptance-gate-2026-11-27.md) | Gate penerimaan known gaps Phase 1–3 | Accepted by user 2026-11-27; commit/push manual oleh pengguna; CI remote terverifikasi via [P4.1](./p4.1-implementation-report-2026-11-27.md) |
-| [phase-4-backlog.md](./phase-4-backlog.md) | Backlog P4.1–P4.6 Integration & MVP Hardening | P4.1 Done (CI remote success); P4.2–P4.5 Done (local PASS, pending manual commit/push + CI remote); P4.4 scoped (learning skipped); P4.6 Done (exit review, local PASS with known gaps) |
+| [phase-4-backlog.md](./phase-4-backlog.md) | Backlog P4.1–P4.6 Integration & MVP Hardening | P4.1–P4.6 Done; P4.2–P4.6 dibuktikan CI remote via `e1f288d` / run `45970025553`; P4.4 scoped (learning skipped) |
 | [p4.1-implementation-report-2026-11-27.md](./p4.1-implementation-report-2026-11-27.md) | Laporan slice P4.1 Repo hygiene & CI checkpoint | PASS — repo sinkron `7d46927`, CI run #2 `success` |
-| [p4.2-implementation-report-2026-11-27.md](./p4.2-implementation-report-2026-11-27.md) | Laporan slice P4.2 Automated test minimum | Local PASS — 40 tests (23 existing + 17 backend baru); pending manual commit/push + CI remote |
+| [p4.2-implementation-report-2026-11-27.md](./p4.2-implementation-report-2026-11-27.md) | Laporan slice P4.2 Automated test minimum | Local PASS — 40 tests (23 existing + 17 backend baru); ter-commit `e1f288d`, CI remote success |
 | [p4.3-implementation-report-2026-11-27.md](./p4.3-implementation-report-2026-11-27.md) | Laporan slice P4.3 Browser/a11y/responsive smoke | Local command-verified; browser/a11y/responsive manual NOT RUN; deep-link edge case fixed |
 | [p4.4-implementation-report-2026-11-27.md](./p4.4-implementation-report-2026-11-27.md) | Laporan slice P4.4 Continuous E2E smoke (scoped) | Local PASS — handbook→project→deep-link flow; learning skipped per explicit user instruction |
 | [p4.5-implementation-report-2026-11-27.md](./p4.5-implementation-report-2026-11-27.md) | Laporan slice P4.5 Backup/restore & release readiness | Local drill PASS; release checklist/OD-002 note created; export-portable app endpoint not implemented |
 | [release-readiness-checklist.md](./release-readiness-checklist.md) | Checklist release readiness MVP | Draft operasional P4.5; deploy-ready NO (OD-002 constraint) |
 | [od-002-deploy-constraint.md](./od-002-deploy-constraint.md) | Catatan constraint deploy OD-002 | Fastify long-running vs Vercel; opsi belum diputuskan/diimplementasikan |
-| [phase-4-exit-review-2026-11-27.md](./phase-4-exit-review-2026-11-27.md) | Exit review Phase 4 | Local PASS with known gaps; CI remote hanya hijau untuk `7d46927`; bukan sign-off/deploy-ready |
+| [phase-4-exit-review-2026-11-27.md](./phase-4-exit-review-2026-11-27.md) | Exit review Phase 4 | Local PASS with known gaps; dokumen mencatat baseline CI `7d46927`, lanjutan `e1f288d` di [P5.1](./p5.1-implementation-report-2026-11-27.md); bukan sign-off/deploy-ready |
+| [phase-5-backlog.md](./phase-5-backlog.md) | Backlog P5.1–P5.7 Follow-up Hardening & Release Path | P5.1 Done (bukti CI `e1f288d`); P5.2–P5.7 Proposed (planning only 2026-11-27) |
+| [p5.1-implementation-report-2026-11-27.md](./p5.1-implementation-report-2026-11-27.md) | Laporan slice P5.1 Commit/CI remote verification checkpoint | PASS — commit manual `e1f288d`, CI run `45970025553` `success`; documentation-only |
 | [p3.1-implementation-report-2026-11-27.md](./p3.1-implementation-report-2026-11-27.md) | Laporan slice P3.1 | Local PASS with known gaps |
 | [p3.2-implementation-report-2026-11-27.md](./p3.2-implementation-report-2026-11-27.md) | Laporan slice P3.2 | Local PASS with known gaps |
 | [p3.3-implementation-report-2026-11-27.md](./p3.3-implementation-report-2026-11-27.md) | Laporan slice P3.3 | Local PASS with known gaps |
