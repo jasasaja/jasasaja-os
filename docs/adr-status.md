@@ -37,8 +37,11 @@ Sebelum P0.1-02, sebagian besar poin di atas tercatat sebagai rekomendasi `Propo
 | ADR-007 | Content Versioning | Proposed | **Accepted** | OD-005 disetujui 2026-11-25 (B1: append-only version rows, approve eksplisit owner) | Desain schema/migrasi/endpoint versi belum dibuat |
 | ADR-008 | Backup and Recovery | Proposed | **Accepted** | OD-006 backup/restore non-produksi disetujui 2026-11-25 (`pg_dump -Fc` + SHA256, mingguan + sebelum schema, retensi 7, `./backups/` gitignored, restore drill scratch) | Export portabel aplikasi/endpoint masih Proposed; implementasi P0.5-02 pending instruksi |
 | ADR-009 | Default Timezone | Proposed | **Accepted** | OD-008 disetujui 2026-11-25 (C2: simpan waktu lokal Asia/Jakarta saja, pilihan pengguna) | Dampak konversi/portabilitas perlu dijaga saat implementasi schema/API |
+| ADR-010 | Next.js App Router Migration | — | **Proposed** | Belum ada cakupan yang disetujui; hanya izin checkpoint, branch, dan ADR proposal | OD-001 (migrasi) versi Next.js/Auth.js, OD-002 (migrasi) detail hosting/runtime, OD-TEST strategi test |
 
-Ringkasan: sembilan ADR memiliki keputusan utama `Accepted` pada cakupan yang disetujui; tidak ada ADR yang `Proposed` pada level keputusan utama. OD-001/003/004/005/006/008/PRD-Q-Mastered disetujui 2026-11-25; OD-002 disetujui 2026-11-26 (frontend Vercel Free, API di Vercel, DB Neon Free, domain default, Rp0/bulan) dengan constraint adaptasi Fastify-long-running ke Vercel yang belum diimplementasikan. Tidak ada ADR yang diubah menjadi `Accepted` hanya karena rekomendasi dokumen, kecuali dicatat eksplisit sebagai pilihan/persetujuan pengguna.
+Ringkasan: sembilan ADR (ADR-001–ADR-009) memiliki keputusan utama `Accepted` pada cakupan yang disetujui; sebelum ADR-010 tidak ada ADR yang `Proposed` pada level keputusan utama. OD-001/003/004/005/006/008/PRD-Q-Mastered disetujui 2026-11-25; OD-002 disetujui 2026-11-26 (frontend Vercel Free, API di Vercel, DB Neon Free, domain default, Rp0/bulan) dengan constraint adaptasi Fastify-long-running ke Vercel yang belum diimplementasikan. Tidak ada ADR yang diubah menjadi `Accepted` hanya karena rekomendasi dokumen, kecuali dicatat eksplisit sebagai pilihan/persetujuan pengguna.
+
+**Catatan 2026-11-27 — ADR-010:** pengguna menyetujui pencatatan proposal migrasi ke Next.js App Router/Vercel. ADR-010 berstatus **Proposed** dan **bukan** izin implementasi, dependency, deploy, atau perubahan status ADR lama. ADR-001–ADR-009 tetap `Accepted` pada cakupan masing-masing; status `Superseded` baru dicatat setelah persetujuan terpisah. Checkpoint berupa tag anotasi lokal `pre-nextjs-migration` dan branch `feat/nextjs-migration` dibuat dari HEAD `main` `d40df91e04e4eaddc88917e4e47c0cc10be9fce8`; tidak ada push/commit ke `main`.
 
 ## 3. Open Decisions yang masih memerlukan konfirmasi
 
@@ -54,6 +57,8 @@ Ringkasan: sembilan ADR memiliki keputusan utama `Accepted` pada cakupan yang di
 | PRD-Q-Mastered | Aturan status `Mastered` pada lesson | **Approved — 2026-11-25** | D1: `Mastered` ditandai manual oleh owner; tanpa perhitungan otomatis. | Progress logic Phase 1 dapat memakai status manual; tidak ada field/skor otomatis sebelum keputusan baru |
 
 OD-007 (deployment lokal vs online) telah ditutup sebagai **hybrid** dan tidak termasuk daftar terbuka. Provider database online juga telah ditutup sebagai **Neon Free** pada OD-002, tetapi bagian hosting OD-002 masih terbuka.
+
+**Istilah open question di ADR-010 (2026-11-27):** `OD-001 (migrasi)` (versi Next.js/Auth.js), `OD-002 (migrasi)` (detail hosting/runtime), dan `OD-TEST` (strategi test) adalah label **khusus proposal migrasi** dan tidak mengubah status OD-001/OD-002/OD-003 yang sudah `Approved` di tabel atas. OD-002 existing tetap disetujui dengan constraint Fastify long-running; detail yang belum terselesaikan tercatat di [`od-002-deploy-constraint.md`](./od-002-deploy-constraint.md).
 
 ## 4. Hasil verifikasi provider (ringkas)
 
@@ -84,6 +89,7 @@ Semua angka adalah hasil desk research pada 2026-11-24. Tidak ada akun, project,
 - [x] OD-006 (backup/restore) — Approved 2026-11-25; manual mingguan + sebelum schema, retensi 7 lokal, `./backups/` gitignored, `pg_dump -Fc` + SHA256, restore drill scratch non-produksi.
 - [x] OD-002 (hosting/topologi online) — Approved 2026-11-26: frontend Vercel Free, API di Vercel, DB Neon Free, domain default, Rp0/bulan. **Constraint:** backend Fastify long-running saat ini butuh adaptasi deploy ke Vercel; belum diimplementasikan/diaktifkan.
 - [x] Izin implementasi Phase 0 diberikan secara bertahap, satu task kecil pada satu waktu (Phase 0 selesai; sign-off Phase 1 diberikan pengguna 2026-11-26 dengan batasan diterima/ditunda).
+- [ ] ADR-010 (proposal migrasi Next.js App Router) — **Proposed**; menunggu persetujuan implementasi, dependency, dan detail OD-001/OD-002 (migrasi) serta OD-TEST. ADR lama tidak diubah menjadi `Superseded`.
 
 ## 6. Aturan lanjutan yang disepakati
 
