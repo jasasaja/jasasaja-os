@@ -3,6 +3,7 @@
 - **Status:** P0.1-02 selesai untuk cakupan keputusan yang disetujui; detail yang belum disetujui tetap **Proposed**
 - **Tanggal:** 2026-11-24
 - **Diperbarui:** 2026-11-26 — OD-002 disetujui pengguna: frontend Vercel Free, API di Vercel, DB Neon Free, domain default, Rp0/bulan. **Catatan penting:** backend saat ini Fastify long-running Node server; deploy API ke Vercel membutuhkan adaptasi arsitektur/deploy (mis. serverless entrypoint/adapter) atau keputusan implementasi terpisah - belum diimplementasikan. OD-006 tetap Approved.
+- **Diperbarui 2026-11-27 (M0b):** ADR-010 menjadi **Accepted** sebagai keputusan arsitektur migrasi ke Next.js App Router/Vercel. `Accepted` di sini **bukan** izin implementasi slice, instalasi dependency, push, atau deploy. ADR-002 dan ADR-004 ditandai `Accepted — superseded in part by ADR-010`; ADR-001, ADR-003, ADR-005–ADR-009 tetap `Accepted`.
 - **Peringatan:** Dokumen ini **bukan** bukti izin implementasi. Pengguna menyetujui keputusan arsitektur/stack pada 2026-11-24, tetapi belum memberikan izin implementasi Phase 0.
 - **Riwayat:** P0.1-01 mengunci baseline v1.1 sebagai `Approved`; P0.1-02 mengaudit ADR-001–ADR-009 dan memisahkan keputusan yang disetujui dari Open Decisions yang masih terbuka; 2026-11-25 OD-001 disetujui untuk pinning dependency backend yang disebutkan di ADR-002.
 
@@ -12,14 +13,14 @@
 |---|---|---|---|
 | Baseline Master Blueprint, PRD MVP, Roadmap v1.1 | **Approved — 2026-11-24** | Dokumen acuan implementasi | P0.1-01 |
 | Arsitektur Modular Monolith, satu repository | **Approved** | Domain `learning`, `handbook`, `projects`, `shared/core` | Pengguna 2026-11-24 |
-| Stack inti React + Vite + TypeScript + Fastify + PostgreSQL + Drizzle + Zod | **Approved** | Pinning dependency backend OD-001 disetujui 2026-11-25: `fastify@5.12.8`, `zod@4.6.7`, `drizzle-orm@0.45.4`, `drizzle-kit@0.31.11`, `pg@8.23.1`, `@types/pg@8.23.1`; `typescript`/`tsx` tetap existing. Belum dipasang. | Pengguna 2026-11-24, 2026-11-25 |
+| Stack inti React + Vite + TypeScript + Fastify + PostgreSQL + Drizzle + Zod | **Accepted — superseded in part by ADR-010** | React + TypeScript + PostgreSQL + Drizzle + Zod tetap berlaku; **Vite dan Fastify digantikan** oleh Next.js App Router/Route Handlers menurut ADR-010. Pinning OD-001 2026-11-25 (`fastify@5.12.8`, `zod@4.6.7`, `drizzle-orm@0.45.4`, `drizzle-kit@0.31.11`, `pg@8.23.1`, `@types/pg@8.23.1`) menjadi riwayat untuk bagian yang tergantikan; `typescript`/`tsx` tetap existing. Belum dipasang. | Pengguna 2026-11-24, 2026-11-25; ADR-010 2026-11-27 |
 | Provider database online Neon Free | **Approved** | Target Rp0/bulan; tidak ada akun/project dibuat | Pengguna 2026-11-24 |
 | Budget Rp0/bulan | **Approved** | Tanpa layanan berbayar tanpa persetujuan | Pengguna 2026-11-24 |
 | Autentikasi Google Login | **Approved** | Satu owner, tanpa registrasi publik | Pengguna 2026-11-24 |
 | Content authoring Rich Text / Block Editor | **Approved** | Format import/export belum termasuk | Pengguna 2026-11-24 |
 | Deployment hybrid | **Approved** | Lokal penuh + target online; OD-007 ditutup | Pengguna 2026-11-24 |
 | Single owner, tanpa multi-tenant/offline sync/AI internal MVP | **Approved** | Tidak ada perubahan scope MVP | Pengguna 2026-11-24 |
-| Pertahankan frontend React + Vite + TypeScript | **Approved** | Tanpa migrasi framework tanpa ADR | Pengguna 2026-11-24 |
+| Pertahankan frontend React + Vite + TypeScript | **Accepted — superseded in part by ADR-010** | React + TypeScript tetap; Vite digantikan Next.js App Router. Larangan migrasi tanpa ADR tetap dipatuhi — ADR-010 adalah ADR yang menyetujuinya. | Pengguna 2026-11-24; ADR-010 2026-11-27 |
 | Source code, dependency, konfigurasi, database tidak diubah | **Accepted untuk sesi ini** | Berlaku untuk P0.1-01/P0.1-02 | Arahan pengguna |
 
 Sebelum P0.1-02, sebagian besar poin di atas tercatat sebagai rekomendasi `Proposed`. Status tersebut kini diperbarui hanya untuk cakupan yang secara eksplisit disetujui pengguna. Rincian yang belum disetujui tetap `Proposed` dan tidak dianggap final.
@@ -29,19 +30,19 @@ Sebelum P0.1-02, sebagian besar poin di atas tercatat sebagai rekomendasi `Propo
 | ADR | Judul | Sebelum | Sesudah | Cakupan Approved | Yang masih terbuka |
 |---|---|---|---|---|---|
 | ADR-001 | Application Architecture | Accepted | **Accepted** | Modular Monolith, satu repo, domain inti | Susunan folder backend & kontrak internal |
-| ADR-002 | Frontend and Backend Stack | Proposed | **Accepted** | React + Vite + TS, Node + TS + Fastify, Zod; OD-001 pinning backend disetujui 2026-11-25 | Instalasi dependency belum dilakukan; dependency tambahan lain tetap butuh persetujuan |
+| ADR-002 | Frontend and Backend Stack | Proposed | **Accepted — superseded in part by ADR-010** | React + TS, Zod, dan Node + TS tetap Accepted; pilihan Vite/Fastify tergantikan oleh Next.js App Router/Route Handlers (ADR-010) | Instalasi dependency belum dilakukan; versi Next.js/Auth.js (OD-001 migrasi) masih Open; bagian yang tergantikan tidak lagi jadi acuan implementasi |
 | ADR-003 | Database and ORM | Proposed | **Accepted** | PostgreSQL, Drizzle, Neon Free, Rp0/bulan | Detail environment development; kuota saat aktivasi |
-| ADR-004 | Authentication and Authorization | Proposed | **Accepted** | Google Login, single owner, tanpa registrasi publik; OD-003 session/cookie/CSRF/guard scope (2026-11-25) | Detail implementasi final (nama cookie/TTL/skema session/path) saat Step 6 |
+| ADR-004 | Authentication and Authorization | Proposed | **Accepted — superseded in part by ADR-010** | Requirement Google Login, single owner, tanpa registrasi publik, dan OD-003 (cookie/CSRF/guard) tetap Accepted; **implementasi auth manual/session buatan sendiri tergantikan** oleh library auth teruji menurut ADR-010 | Library/adaptor/strategi session (OD-001 migrasi) masih Open; detail cookie final tetap mengikuti requirement OD-003 |
 | ADR-005 | Hosting and Deployment | Proposed (hybrid Accepted) | **Accepted** | Hybrid, Rp0/bulan, Neon Free sebagai DB online | Hosting/topologi/region/domain (OD-002) |
 | ADR-006 | Content Authoring and Import | Proposed | **Accepted** | Rich Text / Block Editor sebagai authoring MVP; OD-004 disetujui 2026-11-25 (A1: JSON block, export/import awal JSON) | Implementasi editor/library, sanitasi block, dan endpoint import/export belum dibuat |
 | ADR-007 | Content Versioning | Proposed | **Accepted** | OD-005 disetujui 2026-11-25 (B1: append-only version rows, approve eksplisit owner) | Desain schema/migrasi/endpoint versi belum dibuat |
 | ADR-008 | Backup and Recovery | Proposed | **Accepted** | OD-006 backup/restore non-produksi disetujui 2026-11-25 (`pg_dump -Fc` + SHA256, mingguan + sebelum schema, retensi 7, `./backups/` gitignored, restore drill scratch) | Export portabel aplikasi/endpoint masih Proposed; implementasi P0.5-02 pending instruksi |
 | ADR-009 | Default Timezone | Proposed | **Accepted** | OD-008 disetujui 2026-11-25 (C2: simpan waktu lokal Asia/Jakarta saja, pilihan pengguna) | Dampak konversi/portabilitas perlu dijaga saat implementasi schema/API |
-| ADR-010 | Next.js App Router Migration | — | **Proposed** | Belum ada cakupan yang disetujui; hanya izin checkpoint, branch, dan ADR proposal | OD-001 (migrasi) versi Next.js/Auth.js, OD-002 (migrasi) detail hosting/runtime, OD-TEST strategi test |
+| ADR-010 | Next.js App Router Migration | — | **Accepted** | Keputusan arsitektur Next.js App Router/Vercel disetujui 2026-11-27; **bukan** izin slice, dependency, push, atau deploy | OD-001 (migrasi) versi Next.js/Auth.js, OD-002 (migrasi) detail hosting/runtime, OD-TEST strategi test — semua masih Open |
 
 Ringkasan: sembilan ADR (ADR-001–ADR-009) memiliki keputusan utama `Accepted` pada cakupan yang disetujui; sebelum ADR-010 tidak ada ADR yang `Proposed` pada level keputusan utama. OD-001/003/004/005/006/008/PRD-Q-Mastered disetujui 2026-11-25; OD-002 disetujui 2026-11-26 (frontend Vercel Free, API di Vercel, DB Neon Free, domain default, Rp0/bulan) dengan constraint adaptasi Fastify-long-running ke Vercel yang belum diimplementasikan. Tidak ada ADR yang diubah menjadi `Accepted` hanya karena rekomendasi dokumen, kecuali dicatat eksplisit sebagai pilihan/persetujuan pengguna.
 
-**Catatan 2026-11-27 — ADR-010:** pengguna menyetujui pencatatan proposal migrasi ke Next.js App Router/Vercel. ADR-010 berstatus **Proposed** dan **bukan** izin implementasi, dependency, deploy, atau perubahan status ADR lama. ADR-001–ADR-009 tetap `Accepted` pada cakupan masing-masing; status `Superseded` baru dicatat setelah persetujuan terpisah. Checkpoint berupa tag anotasi lokal `pre-nextjs-migration` dan branch `feat/nextjs-migration` dibuat dari HEAD `main` `d40df91e04e4eaddc88917e4e47c0cc10be9fce8`; tidak ada push/commit ke `main`.
+**Catatan 2026-11-27 (M0b) — ADR-010:** pengguna menyetujui ADR-010 menjadi **Accepted** sebagai keputusan arsitektur migrasi ke Next.js App Router/Vercel. `Accepted` **TIDAK** memberi izin implementasi slice, instalasi dependency, push, atau deploy; tiap slice tetap butuh izin sendiri. ADR-002 dan ADR-004 ditandai `Accepted — superseded in part by ADR-010` karena Vite/Fastify dan implementasi auth manual tergantikan. ADR-001, ADR-003, ADR-005–ADR-009 tetap `Accepted` tanpa perubahan (Drizzle, Zod, PostgreSQL/Neon, timezone, backup, dan requirement Google Login single-owner tetap berlaku). Checkpoint berupa tag anotasi lokal `pre-nextjs-migration` dan branch `feat/nextjs-migration` tetap berasal dari HEAD `main` `d40df91e04e4eaddc88917e4e47c0cc10be9fce8`; tidak ada push/merge/reset atau commit ke `main`.
 
 ## 3. Open Decisions yang masih memerlukan konfirmasi
 
@@ -58,7 +59,7 @@ Ringkasan: sembilan ADR (ADR-001–ADR-009) memiliki keputusan utama `Accepted` 
 
 OD-007 (deployment lokal vs online) telah ditutup sebagai **hybrid** dan tidak termasuk daftar terbuka. Provider database online juga telah ditutup sebagai **Neon Free** pada OD-002, tetapi bagian hosting OD-002 masih terbuka.
 
-**Istilah open question di ADR-010 (2026-11-27):** `OD-001 (migrasi)` (versi Next.js/Auth.js), `OD-002 (migrasi)` (detail hosting/runtime), dan `OD-TEST` (strategi test) adalah label **khusus proposal migrasi** dan tidak mengubah status OD-001/OD-002/OD-003 yang sudah `Approved` di tabel atas. OD-002 existing tetap disetujui dengan constraint Fastify long-running; detail yang belum terselesaikan tercatat di [`od-002-deploy-constraint.md`](./od-002-deploy-constraint.md).
+**Istilah open question di ADR-010 (2026-11-27, Accepted):** `OD-001 (migrasi)` (versi Next.js/Auth.js), `OD-002 (migrasi)` (detail hosting/runtime), dan `OD-TEST` (strategi test) adalah label **khusus keputusan migrasi ADR-010** dan tetap **Open**; label ini tidak mengubah status OD-001/OD-002/OD-003 yang sudah `Approved` di tabel atas. OD-002 existing tetap disetujui dengan constraint Fastify long-running; detail yang belum terselesaikan tercatat di [`od-002-deploy-constraint.md`](./od-002-deploy-constraint.md).
 
 ## 4. Hasil verifikasi provider (ringkas)
 
@@ -89,7 +90,7 @@ Semua angka adalah hasil desk research pada 2026-11-24. Tidak ada akun, project,
 - [x] OD-006 (backup/restore) — Approved 2026-11-25; manual mingguan + sebelum schema, retensi 7 lokal, `./backups/` gitignored, `pg_dump -Fc` + SHA256, restore drill scratch non-produksi.
 - [x] OD-002 (hosting/topologi online) — Approved 2026-11-26: frontend Vercel Free, API di Vercel, DB Neon Free, domain default, Rp0/bulan. **Constraint:** backend Fastify long-running saat ini butuh adaptasi deploy ke Vercel; belum diimplementasikan/diaktifkan.
 - [x] Izin implementasi Phase 0 diberikan secara bertahap, satu task kecil pada satu waktu (Phase 0 selesai; sign-off Phase 1 diberikan pengguna 2026-11-26 dengan batasan diterima/ditunda).
-- [ ] ADR-010 (proposal migrasi Next.js App Router) — **Proposed**; menunggu persetujuan implementasi, dependency, dan detail OD-001/OD-002 (migrasi) serta OD-TEST. ADR lama tidak diubah menjadi `Superseded`.
+- [x] ADR-010 (migrasi Next.js App Router) — **Accepted** sebagai keputusan arsitektur 2026-11-27; bukan izin implementasi slice/dependency/push/deploy. OD-001 (migrasi), OD-002 (migrasi), dan OD-TEST tetap Open. ADR-002/ADR-004 ditandai `Accepted — superseded in part by ADR-010`; ADR-001/003/005–009 tidak diubah.
 
 ## 6. Aturan lanjutan yang disepakati
 

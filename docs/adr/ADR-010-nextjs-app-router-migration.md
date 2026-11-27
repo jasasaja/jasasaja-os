@@ -1,6 +1,6 @@
 # ADR-010: Migrasi ke Next.js App Router
 
-- **Status:** **Proposed** — menunggu persetujuan pengguna untuk implementasi. ADR ini **tidak** memberi izin mengubah dependency, kode, konfigurasi, data, atau melakukan deploy. ADR-001–ADR-009 tetap `Accepted` pada cakupan yang disetujui; status `Superseded` baru dicatat setelah persetujuan terpisah.
+- **Status:** **Accepted** — keputusan arsitektur disetujui pengguna 2026-11-27. **Accepted = keputusan arsitektur; TIDAK memberi izin implementasi slice, instalasi dependency, push, atau deploy.** Tiap slice tetap butuh izin sendiri. ADR-002 dan ADR-004 ditandai `Accepted — superseded in part by ADR-010` di `docs/adr-status.md`; ADR-001, ADR-003, ADR-005–ADR-009 tetap `Accepted`.
 - **Tanggal:** 2026-11-27
 - **Sumber:** Keputusan pengguna 2026-11-27 untuk memindahkan aplikasi ke Next.js (App Router) yang di-deploy ke Vercel; [`docs/change-control.md`](../change-control.md) gate arsitektur & dependency; [`docs/adr-status.md`](../adr-status.md); [`docs/od-002-deploy-constraint.md`](../od-002-deploy-constraint.md); inspeksi kode aktual di `src/`, `server/src/`, `package.json`, dan `server/src/db/`.
 - **Checkpoint:** tag anotasi `pre-nextjs-migration` pada HEAD `main` `d40df91e04e4eaddc88917e4e47c0cc10be9fce8` (lokal, belum di-push).
@@ -22,9 +22,9 @@ Alasan pengguna memutuskan migrasi:
 2. **Auth cookie satu origin** — cookie sesi, callback OAuth, dan pengecekan `Origin` menjadi konsisten karena UI dan `/api` berada di origin yang sama; mengurangi risiko konfigurasi lintas-origin.
 3. **Selaras dengan stack utama pengguna dan Vercel** — React/TypeScript tetap dipakai, tetapi framework yang dipakai adalah Next.js yang didukung native oleh Vercel. Ini juga menjawab constraint OD-002: [`docs/od-002-deploy-constraint.md`](../od-002-deploy-constraint.md) mencatat bahwa Fastify long-running tidak langsung cocok dengan model Vercel dan belum diadaptasi.
 
-Persetujuan ini **hanya** mengizinkan checkpoint (`pre-nextjs-migration`), branch `feat/nextjs-migration`, dan ADR proposal ini. Tidak ada izin implementasi, instalasi dependency, perubahan `package.json`/lockfile, deploy, atau perubahan status ADR lama.
+Persetujuan 2026-11-27 mengizinkan checkpoint (`pre-nextjs-migration`), branch `feat/nextjs-migration`, dan menetapkan ADR ini sebagai **keputusan arsitektur**. Status `Accepted` tidak memberi izin implementasi slice, instalasi dependency, push, deploy, atau perubahan kode/konfigurasi/data; tiap slice tetap memerlukan izin eksplisit tersendiri.
 
-## Keputusan yang diusulkan
+## Keputusan
 
 - **Next.js App Router + TypeScript** sebagai satu aplikasi. Komponen React yang ada dipertahankan sedapat mungkin; halaman dipindah ke App Router (`app/`), dengan Server Components hanya bila tidak mengubah kontrak data dan perilaku auth.
 - **Route Handlers dan/atau Server Actions menggantikan seluruh route Fastify** di `server/src/app.ts` dan `server/src/modules/*/routes.ts`. Envelope `{ "data": ... }` / `{ "error": { code, message, details } }` dan prefix `/api` dipertahankan agar klien existing tidak berubah sekaligus. Server Actions dipertimbangkan untuk mutasi yang benar-benar berupa aksi owner, bukan pengganti otomatis semua endpoint.
@@ -37,23 +37,23 @@ Persetujuan ini **hanya** mengizinkan checkpoint (`pre-nextjs-migration`), branc
 
 | Keputusan | Status | Keterangan |
 |---|---|---|
-| Next.js App Router + TypeScript | **Proposed** | Menunggu persetujuan implementasi |
-| Route Handlers/Server Actions menggantikan Fastify | **Proposed** | 34 endpoint `/api` saat ini; paritas kontrak wajib |
-| Drizzle schema & migrasi dipertahankan | **Proposed — direncanakan reused** | Tidak ada perubahan schema dalam proposal ini |
-| Zod dipertahankan | **Proposed — direncanakan reused** | Perlu diekstraksi dari file route Fastify |
-| Library auth teruji menggantikan OAuth manual | **Proposed** | Versi/adaptor/strategi session = OD-001 (migrasi) |
+| Next.js App Router + TypeScript | **Accepted (keputusan arsitektur)** | Implementasi menunggu izin slice; bukan izin dependency/deploy |
+| Route Handlers/Server Actions menggantikan Fastify | **Accepted sebagai arah arsitektur** | 34 endpoint `/api` saat ini; paritas kontrak wajib, dikerjakan per slice |
+| Drizzle schema & migrasi dipertahankan | **Accepted sebagai keputusan lanjutan** | ADR-003 tetap `Accepted`; tidak ada perubahan schema dalam keputusan ini |
+| Zod dipertahankan | **Accepted sebagai keputusan lanjutan** | ADR-002 bagian Zod tetap `Accepted`; ekstraksi dari route Fastify menyusul saat slice diizinkan |
+| Library auth teruji menggantikan OAuth manual | **Proposed** | Belum dipilih; versi/adaptor/strategi session = OD-001 (migrasi) masih **Open** |
 | Google Login, single owner, tanpa registrasi publik | **Accepted sebagai requirement** | ADR-004/OD-003 tetap berlaku |
 | Neon Free sebagai DB online | **Accepted** | OD-002 2026-11-26; detail deploy masih terbuka |
-| Vercel sebagai target deploy | **Proposed untuk migrasi ini** | OD-002 existing sudah Approved dengan constraint; detail hosting = OD-002 (migrasi) |
+| Vercel sebagai target deploy (OD-002 existing) | **Accepted** | OD-002 2026-11-26 dengan constraint; detail hosting/runtime migrasi tetap **Proposed** (OD-002 migrasi masih **Open**) |
 | Instalasi dependency / perubahan `package.json` & lockfile | **Tidak diizinkan pada ADR ini** | Butuh izin eksplisit terpisah |
-| Status ADR-001–ADR-009 | **Tetap Accepted** | `Superseded` menunggu persetujuan pengguna |
+| Status ADR-001–ADR-009 | **ADR-002 & ADR-004: Accepted — superseded in part by ADR-010** | ADR-001, ADR-003, ADR-005–ADR-009 tetap `Accepted` |
 | `git push` / deploy / aktivasi akun | **Tidak diizinkan pada ADR ini** | Tag dan branch bersifat lokal |
 
 ## Opsi yang dipertimbangkan
 
 | Opsi | Kompleksitas | Biaya | Satu origin/auth | Deploy Vercel | Status |
 |---|---|---|---|---|---|
-| **C — Next.js App Router, satu app (usulan)** | Tinggi saat migrasi, rendah setelahnya | Rp0/bulan sesuai target existing | Baik: cookie & callback satu origin | Native | **Proposed** |
+| **C — Next.js App Router, satu app (dipilih)** | Tinggi saat migrasi, rendah setelahnya | Rp0/bulan sesuai target existing | Baik: cookie & callback satu origin | Native | **Accepted** (keputusan arsitektur) |
 | **A — Vite + Fastify host terpisah** | Sedang | Rp0–rendah (tergantung host API) | Buruk/rapuh: dua origin, CORS/allowlist, cookie lintas host, dua deploy | Frontend mudah; API butuh adaptasi serverless | **Tidak dipilih** — tidak menyelesaikan constraint OD-002 |
 | **B — Vite + Fastify satu server** (Fastify menyajikan `dist/` + `/api`) | Sedang | Rp0–rendah | Baik: satu origin | Tidak native: proses long-running tetap perlu host Node/adaptor | **Tidak dipilih** — constraint OD-002 tetap ada |
 
@@ -82,10 +82,10 @@ Opsi A/B tetap dicatat sebagai arsip perbandingan; keduanya tidak mengubah kode 
 
 | Bagian | Bukti di repository | Catatan pemakaian ulang |
 |---|---|---|
-| Schema Drizzle | `server/src/db/schema/{shared,learning,handbook,projects,index}.ts` — 11 tabel, 5 enum, `localTimestamp`, FK `onDelete: "restrict"`, unique index | Impor langsung dari `lib/db/schema`; tidak ada perubahan schema yang diusulkan |
+| Schema Drizzle | `server/src/db/schema/{shared,learning,handbook,projects,index}.ts` — 11 tabel, 5 enum, `localTimestamp`, FK `onDelete: "restrict"`, unique index | Impor langsung dari `lib/db/schema`; tidak ada perubahan schema dalam keputusan ini |
 | Migrasi | `server/src/db/migrations/0000_init.sql`, `0001_add_sessions.sql`, `meta/_journal.json`, snapshot | File SQL yang sama dipakai test/integrasi; prosedur deploy tetap non-destruktif |
 | Seed | `server/src/db/seed/seed.ts` | Skrip seed tetap berguna untuk lokal/scratch; perlu pemeriksaan saat dependency diizinkan |
-| Zod schema & helper | `server/src/modules/{learning,handbook,projects}/routes.ts`: `contentJsonSchema`, `handbookContentJsonSchema` (6 bagian + provenance), `calendarDateSchema`, `listItemsQuerySchema`, `sanitizeSearchTerm` | Logika validasi dipertahankan, tetapi **diekraksi** dari `register*Routes` ke modul bersama |
+| Zod schema & helper | `server/src/modules/{learning,handbook,projects}/routes.ts`: `contentJsonSchema`, `handbookContentJsonSchema` (6 bagian + provenance), `calendarDateSchema`, `listItemsQuerySchema`, `sanitizeSearchTerm` | Logika validasi dipertahankan, tetapi **diekstraksi** dari `register*Routes` ke modul bersama |
 | Logika modul `learning` | `server/src/modules/learning/routes.ts`: transaksi buat lesson + versi 1 `Draft`, next-version, approve (`Draft → Approved`, lama `Deprecated`), progress upsert `PATCH`/`PUT`, `toLessonVersion`/`toLessonProgress` | Query/transaksi Drizzle dipindah ke service `lib/`; tanda tangan Fastify diganti handler web |
 | Logika modul `handbook` | `server/src/modules/handbook/routes.ts`: `resolveVersions`, `toItemSummary`, pencarian `ilike`, lock `.for("update")` + backstop partial unique index saat approve | Dipertahankan persis; paritas diuji dengan DB nyata |
 | Logika modul `projects` | `server/src/modules/projects/routes.ts`: `countProjectChildren`, `resolveHandbookReferences`, validasi milestone/task, konversi `date` (`toDateValue`/`toDateString`), referensi lintas modul berupa ID | Dipindah ke service; tidak mengubah aturan reference |
@@ -144,6 +144,7 @@ Setiap slice memerlukan izin implementasi tersendiri, satu slice kecil, verifika
 ## Riwayat perubahan
 
 - 2026-11-27: ADR dibuat dengan status `Proposed` setelah pengguna memutuskan migrasi ke Next.js App Router/Vercel. Tag anotasi `pre-nextjs-migration` dibuat di HEAD `main` `d40df91e...` dan branch `feat/nextjs-migration` dibuat dari commit yang sama. Inventaris disusun dari kode aktual; tidak ada source code, dependency, konfigurasi, database, atau deploy yang diubah. Status ADR lama tidak disentuh.
+- 2026-11-27 (M0b): pengguna menyetujui ADR-010 menjadi **Accepted** sebagai keputusan arsitektur. Catatan mengikat: `Accepted` **TIDAK** memberi izin implementasi slice, instalasi dependency, push, atau deploy; tiap slice tetap butuh izin sendiri. Status turunan diselaraskan: Next.js App Router/Route Handlers, Drizzle, Zod, target Vercel, Google Login/single-owner, dan Neon menjadi Accepted; library auth, detail hosting/runtime, serta OD-001/OD-002/OD-TEST (migrasi) tetap `Proposed`/**Open**. Di `docs/adr-status.md`, ADR-002 dan ADR-004 ditandai `Accepted — superseded in part by ADR-010`; ADR-001, ADR-003, ADR-005–ADR-009 tidak diubah. Tidak ada slice atau rencana baru yang ditambahkan.
 
 ## Rollback
 
