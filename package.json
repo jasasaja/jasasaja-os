@@ -11,6 +11,9 @@
     "dev:api": "tsx watch --env-file-if-exists=.env server/src/server.ts",
     "api": "tsx --env-file-if-exists=.env server/src/server.ts",
     "build": "vite build",
+    "dev:next": "next dev --port 3100",
+    "build:next": "next build",
+    "start:next": "next start --port 3100",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit && tsc --noEmit -p server/tsconfig.json",
@@ -26,6 +29,7 @@
     "drizzle-orm": "0.45.4",
     "fastify": "5.12.8",
     "lucide-react": "^0.546.0",
+    "next": "16.4.6",
     "pg": "8.23.1",
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
@@ -33,6 +37,7 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "4.3.5",
     "@types/node": "^22.14.0",
     "@types/pg": "8.23.1",
     "@types/react": "^19.3.0",
@@ -40,6 +45,6 @@
     "drizzle-kit": "0.31.11",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.21.0",
-    "typescript": "^7.0.2"
+    "typescript": "7.0.2"
   }
 }
